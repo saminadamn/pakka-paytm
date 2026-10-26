@@ -64,6 +64,20 @@ For real Bulbul voice, copy `.env.example` to `.env` and set `SARVAM_API_KEY`.
 | KFS terms explained, English and Hindi | 6 / 6 in both |
 | Agent latency, p50 / p95 (no network) | ~1.1 ms / ~1.8 ms |
 
+### Held-out test
+
+`python eval/holdout.py` builds 260 journeys from 13 patterns written after the detector, which it was never tuned on: a PAN upload that works followed by Aadhaar failures, failures right at the 90-second line, someone fixing the problem and moving on, a brief look at the KFS, and so on.
+
+| | Result |
+|---|---|
+| Accuracy | 0.85 |
+| False alarms on users who were fine | 0% |
+| Stuck users missed | 11% |
+
+Two patterns fail, and we're leaving them visible rather than tuning the rules to pass:
+1. One failed face check and then a long pause isn't flagged. The liveness rule needs two failures.
+2. Two failed uploads and then a 10+ minute walk-away is labelled `timeout`, not `bad_photo`, so Pakka sends a resume link instead of a photo retake.
+
 Please read the detection number carefully. The synthetic journeys are generated from the same failure taxonomy the detector uses, so 1.00 shows the rules do what we wrote, not how they'd do on real Paytm traffic. Near-miss journeys (one failed upload that then succeeds, a short pause on the offer screen) are included to check for false alarms. Real accuracy, and whether Pakka actually lifts completion, can only come from a pilot against a control group.
 
 The handoff rate after three attempts is 0.8 rather than 1.0 because timeouts end in a callback offer, not a handoff.

@@ -77,8 +77,8 @@
     "missing": []
   },
   "latency": {
-    "p50_ms": 1.11,
-    "p95_ms": 1.75,
+    "p50_ms": 1.12,
+    "p95_ms": 1.82,
     "note": "agent only, no network calls"
   },
   "scripted_scenarios": {

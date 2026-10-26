@@ -1,0 +1,36 @@
+{
+  "journeys": 260,
+  "variants": 13,
+  "accuracy": 0.846,
+  "false_positive_rate": 0.0,
+  "false_negative_rate": 0.111,
+  "missed_by_variant": {
+    "two_fails_then_walks_away": 20,
+    "one_liveness_fail_then_pause": 20
+  },
+  "confusion": {
+    "bad_photo": {
+      "bad_photo": 40,
+      "timeout": 20
+    },
+    "liveness": {
+      "liveness": 20,
+      "none": 20
+    },
+    "wrong_format": {
+      "wrong_format": 20
+    },
+    "offer_jargon": {
+      "offer_jargon": 20
+    },
+    "timeout": {
+      "timeout": 20
+    },
+    "digilocker": {
+      "digilocker": 20
+    },
+    "none": {
+      "none": 80
+    }
+  }
+}
