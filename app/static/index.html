@@ -4,71 +4,153 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pakka prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#002970;--blue:#1565E0;--sky:#00BAF2;--bg:#EEF5FD;--card:#fff;--line:#E1EAF5;--text:#0B1B33;--muted:#5A6B82;--green:#1E9E5A;--amber:#B5651D}
+:root{--navy:#002970;--blue:#1565E0;--sky:#00BAF2;--bg:#F3F7FC;--soft:#E8F4FD;--card:#fff;--line:#E3EBF5;--text:#0B1B33;--muted:#5A6B82;--green:#1E9E5A;--greenBg:#E7F6EE;--amber:#B5651D;--amberBg:#FFF1E2}
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
-header{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:#fff;border-bottom:1px solid var(--line)}
-.logo{font-weight:800;font-size:24px;color:var(--navy);letter-spacing:-.5px}.logo span{color:var(--sky)}
-.tag{font-size:12px;color:var(--muted);background:var(--bg);padding:4px 10px;border-radius:99px}
-main{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;max-width:1200px;margin:20px auto;padding:0 16px}
-@media(max-width:860px){main{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 6px 20px rgba(0,41,112,.06)}
-h2{margin:0 0 4px;font-size:20px;color:var(--navy)}h3{margin:0 0 8px;font-size:16px;color:var(--navy)}
+.app{display:grid;grid-template-columns:230px minmax(0,1fr) 400px;min-height:100vh}
+@media(max-width:1180px){.app{grid-template-columns:minmax(0,1fr) 380px}.app>.side{display:none}}
+@media(max-width:860px){.app{grid-template-columns:minmax(0,1fr)}}
+
+.side{background:#fff;border-right:1px solid var(--line);padding:22px 16px;display:flex;flex-direction:column;gap:6px}
+.logo{font-weight:800;font-size:26px;color:var(--navy);letter-spacing:-.6px}.logo span{color:var(--sky)}
+.by{font-size:12px;color:var(--muted);margin:-2px 0 18px}
+.side a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;color:var(--muted);text-decoration:none;font-size:14px;font-weight:500}
+.side a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.side a.on{background:var(--soft);color:var(--blue);font-weight:600}
+.tag{margin-top:auto;font-size:11.5px;line-height:1.45;color:var(--muted);background:var(--bg);padding:10px 12px;border-radius:12px}
+
+.main{padding:24px 28px;display:flex;flex-direction:column;gap:18px;min-width:0}
+@media(max-width:860px){.main{padding:16px}}
+.top{display:flex;justify-content:space-between;align-items:center}
+.hi{font-size:24px;font-weight:700;color:var(--navy)}
+.avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--sky));color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 8px 24px rgba(0,41,112,.06)}
+h2{margin:0;font-size:20px;color:var(--navy)}h3{margin:0 0 4px;font-size:17px;color:var(--navy)}
 .muted{color:var(--muted);font-size:14px}
-.steps{display:flex;gap:6px;margin:14px 0 18px}
-.steps div{flex:1;text-align:center;font-size:12px;color:var(--muted)}
-.steps div b{display:block;height:6px;border-radius:9px;background:var(--line);margin-bottom:6px}
-.steps .done b{background:var(--green)}.steps .now b{background:var(--blue)}.steps .now{color:var(--navy);font-weight:700}
-button{font:inherit;font-size:14px;border-radius:12px;padding:10px 14px;border:1px solid var(--line);background:#fff;color:var(--navy);cursor:pointer}
-button.primary{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+.jhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.badge{font-size:13px;font-weight:600;color:var(--blue);background:var(--soft);padding:6px 12px;border-radius:99px}
+
+.steps{display:flex;margin:22px 0 24px}
+.steps div{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);position:relative}
+.steps div:not(:last-child)::after{content:"";position:absolute;top:15px;left:calc(50% + 20px);right:calc(-50% + 20px);height:2px;background:var(--line)}
+.steps div.done:not(:last-child)::after{background:var(--green)}
+.steps b{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid var(--line);font-size:13px;color:var(--muted)}
+.steps .done b{background:var(--green);border-color:var(--green);color:#fff}
+.steps .now b{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 0 5px rgba(21,101,224,.14)}
+.steps .now{color:var(--navy);font-weight:700}
+
+button,.btn{font:inherit;font-size:14px;font-weight:500;border-radius:12px;padding:10px 16px;border:1px solid var(--line);background:#fff;color:var(--navy);cursor:pointer}
+button:hover,.btn:hover{border-color:#c5d6ec}
+button.primary,.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
 button.ghost{background:var(--bg)}
-.row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-.offer{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--bg);border-radius:12px;padding:12px;font-size:14px;margin:10px 0}
-.clock{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
-.pakka{border:2px solid var(--sky);display:none}
-.pakka.show{display:block}
-.pakka .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.msg{white-space:pre-line;background:#E6F6FD;border-radius:14px;padding:14px;line-height:1.5;font-size:15px}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.chip{font-size:12px;padding:3px 9px;border-radius:99px;background:var(--bg);color:var(--muted)}
-.chip.warn{background:#FFF1E2;color:var(--amber)}
-.lang button{padding:4px 10px;font-size:12px}.lang .on{background:var(--navy);color:#fff}
-table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+
+.kv{display:grid;grid-template-columns:auto 1fr;gap:10px 24px;background:var(--bg);border-radius:14px;padding:16px;font-size:14px;margin:14px 0 16px}
+.kv span{color:var(--muted)}
+.docs{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.doc{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.doc.now{border-color:var(--sky);background:#FAFDFF;flex-wrap:wrap}
+.ic{width:38px;height:38px;border-radius:10px;background:var(--soft);display:grid;place-items:center;flex:none}
+.ic svg{width:20px;height:20px;stroke:var(--blue);fill:none;stroke-width:1.8}
+.doc .t{flex:1;min-width:0}.doc .t b{display:block;font-size:14.5px;color:var(--navy)}.doc .t span{font-size:12.5px;color:var(--muted)}
+.st{font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px;white-space:nowrap}
+.st.ok{background:var(--greenBg);color:var(--green)}.st.need{background:var(--amberBg);color:var(--amber)}.st.wait{background:var(--bg);color:var(--muted)}
+.upl{flex-basis:100%;padding-left:52px}
+@media(max-width:600px){.upl{padding-left:0}}
+.frame{border:3px dashed var(--sky);border-radius:14px;height:110px;display:flex;align-items:center;justify-content:center;color:#d8f4ff;background:#14213A;margin:10px 0 0;font-weight:500}
+#doc{margin-top:8px;font-size:13px}
+
+.offercard{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border-radius:18px;padding:20px;margin:14px 0 6px}
+.offercard .amt{font-size:13px;opacity:.8}.offercard strong{display:block;font-size:34px;letter-spacing:-.5px;margin:2px 0 14px}
+.offercard .g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12.5px}
+.offercard .g span{opacity:.75;display:block}.offercard .g b{font-size:16px}
+.success{text-align:center;padding:24px 0}
+.success .tk{width:64px;height:64px;border-radius:50%;background:var(--green);color:#fff;font-size:32px;display:grid;place-items:center;margin:0 auto 12px}
+
+.demo{border:1.5px dashed #c5d6ec;border-radius:16px;padding:14px 16px;background:transparent}
+.demo .h{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.demo .row{margin:6px 0 0}
+.demo button{font-size:13px;padding:8px 12px}
+.clock{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted)}
+
+.assist{padding:24px 24px 24px 0;display:flex;flex-direction:column;gap:16px}
+@media(max-width:860px){.assist{padding:0 16px 24px}}
+.pakka{border:2px solid var(--line);transition:border-color .2s,box-shadow .2s}
+.pakka.show{border-color:var(--sky);box-shadow:0 10px 30px rgba(0,186,242,.18)}
+.pakka .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.who{display:flex;align-items:center;gap:10px}.who b{color:var(--navy);font-size:16px}
+.av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--sky),var(--blue));color:#fff;display:grid;place-items:center;font-size:18px}
+.status{font-size:12px;color:var(--green)}.status::before{content:"● "}
+.pakka.show .status{color:var(--amber)}
+.status .b{display:none}.pakka.show .status .a{display:none}.pakka.show .status .b{display:inline}
+.pakka:not(.show) .live{display:none}.pakka.show .idle{display:none}
+.bubble{background:var(--soft);border-radius:4px 16px 16px 16px;padding:14px 16px;line-height:1.55;font-size:15px}
+.msg{white-space:pre-line}
+.why{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 2px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chip{font-size:12px;padding:4px 10px;border-radius:99px;background:var(--bg);color:var(--muted)}
+.chip.warn{background:var(--amberBg);color:var(--amber)}
+.lang{display:flex;background:var(--bg);border-radius:99px;padding:3px}
+.lang button{padding:5px 12px;font-size:12.5px;border:none;background:transparent;border-radius:99px}.lang .on{background:var(--navy);color:#fff}
 .toast{margin-top:10px;font-size:14px;color:var(--green);min-height:20px}
-.frame{border:3px dashed var(--sky);border-radius:12px;height:120px;display:flex;align-items:center;justify-content:center;color:#cfe;background:#1B2433;margin:10px 0}
-.stack{display:flex;flex-direction:column;gap:20px}
+.assist{min-width:0}.sm{padding:18px;overflow-x:auto}.sm h3{font-size:15px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--muted);font-weight:600}
 </style>
 </head>
 <body>
-<header>
+<div class="app">
+<aside class="side">
 <div class="logo">Pakka<span>✦</span></div>
-<span class="tag">Prototype · synthetic data only · not connected to Paytm</span>
-</header>
-<main>
+<div class="by">Your AI loan companion</div>
+<a href="#"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+<a href="#" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Loans</a>
+<a href="#"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Credit cards</a>
+<a href="#"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Insurance</a>
+<a href="#"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Investments</a>
+<a href="#"><svg viewBox="0 0 24 24"><path d="M12 3v18M17 7H9.5a3 3 0 0 0 0 6h5a3 3 0 0 1 0 6H6"/></svg>Payments</a>
+<div class="tag">Prototype · synthetic data only · not connected to Paytm</div>
+</aside>
+
+<main class="main">
+<div class="top">
+<div><div class="hi">Hi Samina,</div><div class="muted">Let's complete your personal loan application.</div></div>
+<div class="avatar">SP</div>
+</div>
 <section class="card">
-<h2>Personal loan application</h2>
-<div class="muted">A mock loan journey. Every action sends an event to the Pakka API.</div>
+<div class="jhead"><div><h2>Personal Loan Application</h2><div class="muted" id="stepno"></div></div><span class="badge">₹50,000 · 12 months</span></div>
 <div class="steps" id="steps"></div>
 <div id="screen"></div>
-<hr style="border:none;border-top:1px solid var(--line);margin:18px 0">
+</section>
+<section class="demo">
+<div class="h">Demo controls · simulate time passing</div>
 <div class="clock">Simulated clock: <b id="clock">0s</b>
 <button class="ghost" data-tick="30">+30s</button><button class="ghost" data-tick="120">+2 min</button><button class="ghost" data-tick="900">+15 min</button>
 </div>
 </section>
+</main>
 
-<div class="stack">
+<aside class="assist">
 <section class="card pakka" id="pakka">
-<div class="head"><h3>Pakka AI</h3><div class="lang"><button data-lang="en" class="on">English</button><button data-lang="hi">हिंदी</button></div></div>
-<div class="msg" id="msg"></div>
+<div class="head">
+<div class="who"><div class="av">✦</div><div><b>Pakka AI</b><div class="status"><span class="a">Watching your journey</span><span class="b">Stepped in to help</span></div></div></div>
+<div class="lang"><button data-lang="en" class="on">English</button><button data-lang="hi">हिंदी</button></div>
+</div>
+<div class="idle"><div class="bubble">Hi Samina! I'm keeping an eye on your application. If anything gets stuck, I'll explain what went wrong and help you fix it.</div></div>
+<div class="live">
+<div class="bubble msg" id="msg"></div>
+<div class="why">Why Pakka stepped in</div>
 <div class="chips" id="chips"></div>
 <div class="row"><button class="primary" id="yes">Yes, help me</button><button id="listen">Listen</button><button id="no">Not now</button></div>
+</div>
 <div class="toast" id="toast"></div>
 </section>
-<section class="card"><h3>Audit log</h3><div class="muted">Every Pakka intervention is written here.</div><table id="audit"></table></section>
-<section class="card"><h3>Evaluation</h3><div id="eval" class="muted">Run <code>python eval/run_eval.py</code> to fill this in.</div></section>
+<section class="card sm"><h3>Audit log</h3><div class="muted">Every Pakka intervention is written here.</div><table id="audit"></table></section>
+<section class="card sm"><h3>Evaluation</h3><div id="eval" class="muted">Run <code>python eval/run_eval.py</code> to fill this in.</div></section>
+</aside>
 </div>
-</main>
 <script>
 const STEPS=["basic","kyc","offer","bank","review"];
 const LABEL={basic:"Basic details",kyc:"KYC",offer:"Loan offer",bank:"Bank",review:"Review"};
@@ -111,20 +193,39 @@ const EFFECT={
 };
 function toast(t){$("#toast").textContent=t}
 
+const ICON='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4M14 10h4M14 13h3"/></svg>';
+const FILE='<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>';
+const doc=(t,s,st,cls,ic=FILE)=>`<div class="doc"><div class="ic">${ic}</div><div class="t"><b>${t}</b><span>${s}</span></div><span class="st ${cls}">${st}</span></div>`;
+
 function render(guide){
-  $("#steps").innerHTML=STEPS.map((s,i)=>`<div class="${i<STEPS.indexOf(step)||done?"done":s===step?"now":""}"><b></b>${LABEL[s]}</div>`).join("");
+  const at=done?STEPS.length:STEPS.indexOf(step);
+  $("#steps").innerHTML=STEPS.map((s,i)=>`<div class="${i<at?"done":i===at?"now":""}"><b>${i<at?"✓":i+1}</b>${LABEL[s]}</div>`).join("");
+  $("#stepno").textContent=done?"Completed":`Step ${at+1} of ${STEPS.length} · ${LABEL[step]}`;
   const S=$("#screen");
-  if(done){S.innerHTML=`<h3>Application submitted</h3><p class="muted">Journey ${jid} finished at ${clock}s.</p>`;return}
-  if(step==="basic")S.innerHTML=`<h3>Basic details</h3><p class="muted">Name, PAN and income are pre-filled with sample data.</p><button class="primary" id="next">Continue</button>`;
-  if(step==="kyc")S.innerHTML=`<h3>Upload Aadhaar</h3>${guide?`<div class="frame">Keep all four corners inside the frame</div>`:""}
-  <div class="row"><label class="primary" style="padding:10px 14px;border-radius:12px;background:var(--blue);color:#fff;cursor:pointer">Upload a real photo<input type="file" id="file" accept="image/*" hidden></label><button id="ok">Good photo (simulated)</button></div>
-  <div class="muted">Simulate a failure:</div>
-  <div class="row"><button data-fail="IMG_CROPPED">Corner cut off</button><button data-fail="IMG_BLUR">Blurry</button><button data-fail="IMG_GLARE">Glare</button><button data-fail="FILE_FORMAT">Wrong file type</button><button id="live">Face check fails</button><button id="dl">No DigiLocker</button></div>
-  <div class="muted" id="doc"></div>`;
-  if(step==="offer")S.innerHTML=`<h3>Your loan offer</h3><div class="offer"><span>Amount</span><b>₹50,000</b><span>Tenure</span><b>12 months</b><span>EMI</span><b>₹4,600</b><span>APR</span><b>21.6%</b></div><div class="muted">Sample numbers for the demo.</div>
+  if(done){S.innerHTML=`<div class="success"><div class="tk">✓</div><h3>Great! Your application is submitted</h3><p class="muted">Journey ${jid} finished at ${clock}s.</p></div>`;return}
+  if(step==="basic")S.innerHTML=`<h3>Basic details</h3><p class="muted">Pre-filled with sample data. Check and continue.</p>
+  <div class="kv"><span>Full name</span><b>Samina P.</b><span>PAN</span><b>XXXXX1234X</b><span>Monthly income</span><b>₹45,000</b><span>Employment</span><b>Salaried</b></div>
+  <button class="primary" id="next">Continue</button>`;
+  if(step==="kyc")S.innerHTML=`<h3>Upload documents</h3><p class="muted">We need these to verify your identity.</p>
+  <div class="docs">
+  <div class="doc now"><div class="ic">${ICON}</div><div class="t"><b>Identity proof</b><span>Aadhaar card, front side</span></div><span class="st need">Action needed</span>
+   <div class="upl">${guide?`<div class="frame">Keep all four corners inside the frame</div>`:""}
+   <div class="row"><label class="btn primary">Upload a real photo<input type="file" id="file" accept="image/*" hidden></label><button id="ok">Good photo (simulated)</button></div>
+   <div class="muted" id="doc"></div></div></div>
+  ${doc("PAN card","From basic details","Verified","ok")}
+  ${doc("Income proof","Salary slip","Uploaded","ok")}
+  ${doc("Bank statement","Last 3 months","Next","wait")}
+  </div>
+  <div class="demo" style="margin-top:16px"><div class="h">Demo controls · simulate what real users hit</div>
+  <div class="row"><button data-fail="IMG_CROPPED">Corner cut off</button><button data-fail="IMG_BLUR">Blurry</button><button data-fail="IMG_GLARE">Glare</button><button data-fail="FILE_FORMAT">Wrong file type</button><button id="live">Face check fails</button><button id="dl">No DigiLocker</button></div></div>`;
+  if(step==="offer")S.innerHTML=`<h3>Your loan offer</h3><p class="muted">Sample numbers for the demo.</p>
+  <div class="offercard"><div class="amt">Loan amount</div><strong>₹50,000</strong><div class="g"><div><span>Tenure</span><b>12 months</b></div><div><span>EMI</span><b>₹4,600</b></div><div><span>APR</span><b>21.6%</b></div></div></div>
   <div class="row"><button id="kfs">Open Key Fact Statement</button><button id="back">Go back</button><button class="primary" id="accept">Accept offer</button></div>`;
-  if(step==="bank")S.innerHTML=`<h3>Bank account</h3><p class="muted">Disbursal goes straight to your own account.</p><button class="primary" id="next">Continue</button>`;
-  if(step==="review")S.innerHTML=`<h3>Review and submit</h3><button class="primary" id="submit">Submit application</button>`;
+  if(step==="bank")S.innerHTML=`<h3>Bank account</h3><p class="muted">Disbursal goes straight to your own account.</p>
+  <div class="docs">${doc("Savings account","XXXX XXXX 4821 · sample","Verified","ok")}</div><div class="row"><button class="primary" id="next">Continue</button></div>`;
+  if(step==="review")S.innerHTML=`<h3>Review and submit</h3><p class="muted">Everything is in place.</p>
+  <div class="kv"><span>Loan amount</span><b>₹50,000</b><span>EMI</span><b>₹4,600 × 12 months</b><span>Documents</span><b>All verified</b></div>
+  <button class="primary" id="submit">Submit application</button>`;
   bind();
 }
 function bind(){
