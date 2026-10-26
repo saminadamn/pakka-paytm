@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pakka prototype</title>
+<style>
+:root{--navy:#002970;--blue:#1565E0;--sky:#00BAF2;--bg:#EEF5FD;--card:#fff;--line:#E1EAF5;--text:#0B1B33;--muted:#5A6B82;--green:#1E9E5A;--amber:#B5651D}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:#fff;border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:24px;color:var(--navy);letter-spacing:-.5px}.logo span{color:var(--sky)}
+.tag{font-size:12px;color:var(--muted);background:var(--bg);padding:4px 10px;border-radius:99px}
+main{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;max-width:1200px;margin:20px auto;padding:0 16px}
+@media(max-width:860px){main{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 6px 20px rgba(0,41,112,.06)}
+h2{margin:0 0 4px;font-size:20px;color:var(--navy)}h3{margin:0 0 8px;font-size:16px;color:var(--navy)}
+.muted{color:var(--muted);font-size:14px}
+.steps{display:flex;gap:6px;margin:14px 0 18px}
+.steps div{flex:1;text-align:center;font-size:12px;color:var(--muted)}
+.steps div b{display:block;height:6px;border-radius:9px;background:var(--line);margin-bottom:6px}
+.steps .done b{background:var(--green)}.steps .now b{background:var(--blue)}.steps .now{color:var(--navy);font-weight:700}
+button{font:inherit;font-size:14px;border-radius:12px;padding:10px 14px;border:1px solid var(--line);background:#fff;color:var(--navy);cursor:pointer}
+button.primary{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+button.ghost{background:var(--bg)}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.offer{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--bg);border-radius:12px;padding:12px;font-size:14px;margin:10px 0}
+.clock{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.pakka{border:2px solid var(--sky);display:none}
+.pakka.show{display:block}
+.pakka .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.msg{white-space:pre-line;background:#E6F6FD;border-radius:14px;padding:14px;line-height:1.5;font-size:15px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{font-size:12px;padding:3px 9px;border-radius:99px;background:var(--bg);color:var(--muted)}
+.chip.warn{background:#FFF1E2;color:var(--amber)}
+.lang button{padding:4px 10px;font-size:12px}.lang .on{background:var(--navy);color:#fff}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.toast{margin-top:10px;font-size:14px;color:var(--green);min-height:20px}
+.frame{border:3px dashed var(--sky);border-radius:12px;height:120px;display:flex;align-items:center;justify-content:center;color:#cfe;background:#1B2433;margin:10px 0}
+.stack{display:flex;flex-direction:column;gap:20px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">Pakka<span>✦</span></div>
+<span class="tag">Prototype · synthetic data only · not connected to Paytm</span>
+</header>
+<main>
+<section class="card">
+<h2>Personal loan application</h2>
+<div class="muted">A mock loan journey. Every action sends an event to the Pakka API.</div>
+<div class="steps" id="steps"></div>
+<div id="screen"></div>
+<hr style="border:none;border-top:1px solid var(--line);margin:18px 0">
+<div class="clock">Simulated clock: <b id="clock">0s</b>
+<button class="ghost" data-tick="30">+30s</button><button class="ghost" data-tick="120">+2 min</button><button class="ghost" data-tick="900">+15 min</button>
+</div>
+</section>
+
+<div class="stack">
+<section class="card pakka" id="pakka">
+<div class="head"><h3>Pakka AI</h3><div class="lang"><button data-lang="en" class="on">English</button><button data-lang="hi">हिंदी</button></div></div>
+<div class="msg" id="msg"></div>
+<div class="chips" id="chips"></div>
+<div class="row"><button class="primary" id="yes">Yes, help me</button><button id="listen">Listen</button><button id="no">Not now</button></div>
+<div class="toast" id="toast"></div>
+</section>
+<section class="card"><h3>Audit log</h3><div class="muted">Every Pakka intervention is written here.</div><table id="audit"></table></section>
+<section class="card"><h3>Evaluation</h3><div id="eval" class="muted">Run <code>python eval/run_eval.py</code> to fill this in.</div></section>
+</div>
+</main>
+<script>
+const STEPS=["basic","kyc","offer","bank","review"];
+const LABEL={basic:"Basic details",kyc:"KYC",offer:"Loan offer",bank:"Bank",review:"Review"};
+let jid,clock=0,step="basic",lang="en",last=null,open=false,done=false;
+const $=s=>document.querySelector(s);
+
+async function api(path,opt){const r=await fetch(path,opt);if(!r.ok)throw new Error(await r.text());return r.headers.get("content-type")?.includes("json")?r.json():r}
+async function send(type,code){clock+=Math.round(5+Math.random()*10);await api(`/journeys/${jid}/events`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type,step,ts:clock,code})});await check("event")}
+async function go(next){step=next;await send("step_view");render()}
+
+async function check(trigger){
+  $("#clock").textContent=clock+"s";
+  const d=await api(`/journeys/${jid}/rescue?now=${clock}&lang=${lang}&dry=true`);
+  if(!d.detection.stalled){hide();return}
+  if(open&&trigger==="tick")return;
+  last=await api(`/journeys/${jid}/rescue?now=${clock}&lang=${lang}`);
+  show(last);loadAudit();
+}
+function show(r){
+  open=true;$("#pakka").classList.add("show");$("#msg").textContent=r.message;$("#toast").textContent="";
+  $("#chips").innerHTML=[`blocker: ${r.detection.blocker}`,`action: ${r.action}`,...r.detection.reasons,r.escalated?"escalated to a person":"",r.policy_ok?"policy ok":"policy blocked",`${r.latency_ms} ms`].filter(Boolean).map(c=>`<span class="chip ${c.startsWith("escalated")?"warn":""}">${c}</span>`).join("");
+  $("#yes").style.display=r.needs_consent?"":"none";$("#yes").textContent=lang==="hi"?"हाँ, मदद करो":"Yes, help me";
+}
+function hide(){open=false;$("#pakka").classList.remove("show")}
+
+async function relang(l){
+  lang=l;document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("on",b.dataset.lang===l));
+  if(!last)return;const d=last.detection;
+  const r=await api(`/explain?action=${last.action}&lang=${l}&step=${d.step||""}&code=${d.code||""}`);
+  last.message=r.message;show(last);
+}
+
+const EFFECT={
+  guided_recapture:()=>{step="kyc";render(true)},
+  convert_file:()=>toast("File converted to PDF (simulated). Try uploading again."),
+  switch_to_video_kyc:()=>toast("Video KYC slot booked (simulated)."),
+  digilocker_setup_help:()=>toast("DigiLocker setup guide opened (simulated)."),
+  schedule_callback:()=>toast("Callback requested (simulated)."),
+  human_handoff:()=>toast("Handed to an agent with the full journey history (simulated)."),
+};
+function toast(t){$("#toast").textContent=t}
+
+function render(guide){
+  $("#steps").innerHTML=STEPS.map((s,i)=>`<div class="${i<STEPS.indexOf(step)||done?"done":s===step?"now":""}"><b></b>${LABEL[s]}</div>`).join("");
+  const S=$("#screen");
+  if(done){S.innerHTML=`<h3>Application submitted</h3><p class="muted">Journey ${jid} finished at ${clock}s.</p>`;return}
+  if(step==="basic")S.innerHTML=`<h3>Basic details</h3><p class="muted">Name, PAN and income are pre-filled with sample data.</p><button class="primary" id="next">Continue</button>`;
+  if(step==="kyc")S.innerHTML=`<h3>Upload Aadhaar</h3>${guide?`<div class="frame">Keep all four corners inside the frame</div>`:""}
+  <div class="row"><label class="primary" style="padding:10px 14px;border-radius:12px;background:var(--blue);color:#fff;cursor:pointer">Upload a real photo<input type="file" id="file" accept="image/*" hidden></label><button id="ok">Good photo (simulated)</button></div>
+  <div class="muted">Simulate a failure:</div>
+  <div class="row"><button data-fail="IMG_CROPPED">Corner cut off</button><button data-fail="IMG_BLUR">Blurry</button><button data-fail="IMG_GLARE">Glare</button><button data-fail="FILE_FORMAT">Wrong file type</button><button id="live">Face check fails</button><button id="dl">No DigiLocker</button></div>
+  <div class="muted" id="doc"></div>`;
+  if(step==="offer")S.innerHTML=`<h3>Your loan offer</h3><div class="offer"><span>Amount</span><b>₹50,000</b><span>Tenure</span><b>12 months</b><span>EMI</span><b>₹4,600</b><span>APR</span><b>21.6%</b></div><div class="muted">Sample numbers for the demo.</div>
+  <div class="row"><button id="kfs">Open Key Fact Statement</button><button id="back">Go back</button><button class="primary" id="accept">Accept offer</button></div>`;
+  if(step==="bank")S.innerHTML=`<h3>Bank account</h3><p class="muted">Disbursal goes straight to your own account.</p><button class="primary" id="next">Continue</button>`;
+  if(step==="review")S.innerHTML=`<h3>Review and submit</h3><button class="primary" id="submit">Submit application</button>`;
+  bind();
+}
+function bind(){
+  const on=(id,f)=>{const el=document.getElementById(id);if(el)el.onclick=f};
+  on("next",()=>go(STEPS[STEPS.indexOf(step)+1]));
+  on("ok",async()=>{await send("upload_ok");hide();await go("offer")});
+  on("live",()=>send("liveness_failed","LIVENESS"));
+  on("dl",()=>send("digilocker_error","NOT_REGISTERED"));
+  on("kfs",()=>send("kfs_open"));
+  on("back",()=>send("back"));
+  on("accept",async()=>{hide();await go("bank")});
+  on("submit",async()=>{await send("submit");done=true;hide();render()});
+  document.querySelectorAll("[data-fail]").forEach(b=>b.onclick=()=>send("upload_failed",b.dataset.fail));
+  const f=document.getElementById("file");
+  if(f)f.onchange=async()=>{const fd=new FormData();fd.append("file",f.files[0]);
+    const r=await api("/doccheck",{method:"POST",body:fd});
+    $("#doc").textContent=`Doc check: ${r.ok?"looks good":r.issues.join(", ")} · sharpness ${r.metrics.sharpness??"-"} · glare ${r.metrics.glare_ratio??"-"}`;
+    if(r.ok){await send("upload_ok");hide();await go("offer")}else await send("upload_failed",r.issues[0])};
+}
+
+async function loadAudit(){const rows=await api("/audit?limit=8");$("#audit").innerHTML="<tr><th>Journey</th><th>Blocker</th><th>Action</th><th>Lang</th><th>Policy</th></tr>"+rows.map(r=>`<tr><td>${r.journey_id}</td><td>${r.blocker}</td><td>${r.action}${r.escalated?" ⇢ person":""}</td><td>${r.lang}</td><td>${r.policy_ok?"ok":"blocked"}</td></tr>`).join("")}
+async function loadEval(){try{const e=await api("/eval");const s=e.scripted_scenarios,p=e.policy,d=e.detection,l=e.latency;
+  $("#eval").innerHTML=`<table><tr><td>Synthetic journeys</td><td>${e.dataset.journeys}</td></tr><tr><td>Blocker detection accuracy</td><td>${d.accuracy}</td></tr><tr><td>Actions checked / policy violations</td><td>${p.actions_checked} / ${p.violations}</td></tr><tr><td>Scripted scenarios passed</td><td>${s.passed} / ${s.scenarios}</td></tr><tr><td>Agent latency p50 / p95</td><td>${l.p50_ms} / ${l.p95_ms} ms</td></tr></table><p class="muted">Synthetic data uses the same failure taxonomy as the detector, so this checks the logic, not real-world accuracy.</p>`}catch(e){}}
+
+$("#yes").onclick=()=>{const a=last?.action;(EFFECT[a]||(()=>toast("Done.")))();if(a!=="guided_recapture")hide()};
+$("#no").onclick=hide;
+$("#listen").onclick=async()=>{const text=$("#msg").textContent;
+  try{const r=await fetch("/speak",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,lang})});
+    if(r.ok){new Audio(URL.createObjectURL(await r.blob())).play();return}}catch(e){}
+  const u=new SpeechSynthesisUtterance(text);u.lang=lang==="hi"?"hi-IN":"en-IN";speechSynthesis.speak(u);toast("Browser voice used (set SARVAM_API_KEY for Bulbul).")};
+document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>relang(b.dataset.lang));
+document.querySelectorAll("[data-tick]").forEach(b=>b.onclick=()=>{clock+=+b.dataset.tick;check("tick")});
+
+(async()=>{jid=(await api("/journeys",{method:"POST"})).journey_id;await send("step_view");render();loadAudit();loadEval()})();
+</script>
+</body>
+</html>
