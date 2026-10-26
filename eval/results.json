@@ -1,0 +1,89 @@
+{
+  "dataset": {
+    "journeys": 500,
+    "by_kind": {
+      "bad_photo": 80,
+      "wrong_format": 80,
+      "liveness": 80,
+      "offer_jargon": 80,
+      "timeout": 80,
+      "clean_complete": 50,
+      "clean_near_miss": 50
+    }
+  },
+  "detection": {
+    "accuracy": 1.0,
+    "per_class": {
+      "bad_photo": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "n": 80
+      },
+      "liveness": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "n": 80
+      },
+      "none": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "n": 100
+      },
+      "offer_jargon": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "n": 80
+      },
+      "timeout": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "n": 80
+      },
+      "wrong_format": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "n": 80
+      }
+    },
+    "confusion": {
+      "bad_photo": {
+        "bad_photo": 80
+      },
+      "wrong_format": {
+        "wrong_format": 80
+      },
+      "liveness": {
+        "liveness": 80
+      },
+      "offer_jargon": {
+        "offer_jargon": 80
+      },
+      "timeout": {
+        "timeout": 80
+      },
+      "none": {
+        "none": 100
+      }
+    }
+  },
+  "policy": {
+    "actions_checked": 2000,
+    "violations": 0,
+    "handoff_rate_after_3_attempts": 0.8
+  },
+  "kfs_explanations": {
+    "terms": 6,
+    "languages": 2,
+    "missing": []
+  },
+  "latency": {
+    "p50_ms": 1.11,
+    "p95_ms": 1.75,
+    "note": "agent only, no network calls"
+  },
+  "scripted_scenarios": {
+    "scenarios": 30,
+    "passed": 30,
+    "failed": []
+  }
+}

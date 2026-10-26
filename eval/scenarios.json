@@ -1,0 +1,1196 @@
+[
+ {
+  "id": "bad_photo-1",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 19.13923262302832,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 31.14187318315141,
+    "code": null
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 43.056339565888365,
+    "code": "IMG_CROPPED"
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 63.97425598652569,
+    "code": "IMG_BLUR"
+   }
+  ],
+  "now": 109.07,
+  "expect_blocker": "bad_photo",
+  "expect_action": "guided_recapture"
+ },
+ {
+  "id": "bad_photo-2",
+  "attempts": 0,
+  "lang": "hi",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 23.578441135218757,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 53.09552809449153,
+    "code": null
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 77.04793464697492,
+    "code": "IMG_BLUR"
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 88.43889275623354,
+    "code": "IMG_GLARE"
+   }
+  ],
+  "now": 127.17,
+  "expect_blocker": "bad_photo",
+  "expect_action": "guided_recapture"
+ },
+ {
+  "id": "bad_photo-3",
+  "attempts": 1,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 12.584230920236482,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 49.154206963871076,
+    "code": null
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 71.1337390834872,
+    "code": "IMG_GLARE"
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 82.747783694559,
+    "code": "IMG_BLUR"
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 101.9774379250569,
+    "code": "IMG_GLARE"
+   }
+  ],
+  "now": 125.61,
+  "expect_blocker": "bad_photo",
+  "expect_action": "human_handoff"
+ },
+ {
+  "id": "bad_photo-4",
+  "attempts": 3,
+  "lang": "hi",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 38.140067347018416,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 61.645133188307376,
+    "code": null
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 77.61879699804224,
+    "code": "IMG_BLUR"
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 86.34387197159407,
+    "code": "IMG_GLARE"
+   }
+  ],
+  "now": 91.76,
+  "expect_blocker": "bad_photo",
+  "expect_action": "human_handoff"
+ },
+ {
+  "id": "bad_photo-5",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 12.13175440347642,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 51.76670331767448,
+    "code": null
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 67.62217690173883,
+    "code": "IMG_CROPPED"
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 85.91583208018073,
+    "code": "IMG_CROPPED"
+   }
+  ],
+  "now": 110.58,
+  "expect_blocker": "bad_photo",
+  "expect_action": "guided_recapture"
+ },
+ {
+  "id": "wrong_format-1",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 12.55381575476296,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 49.780563737190846,
+    "code": null
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 70.4882049771116,
+    "code": "FILE_FORMAT"
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 85.99735350123277,
+    "code": "FILE_FORMAT"
+   }
+  ],
+  "now": 141.86,
+  "expect_blocker": "wrong_format",
+  "expect_action": "convert_file"
+ },
+ {
+  "id": "wrong_format-2",
+  "attempts": 0,
+  "lang": "hi",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 11.216890387511778,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 33.82873103877424,
+    "code": null
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 42.458787910743276,
+    "code": "FILE_FORMAT"
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 50.85495328101525,
+    "code": "FILE_FORMAT"
+   }
+  ],
+  "now": 81.91,
+  "expect_blocker": "wrong_format",
+  "expect_action": "convert_file"
+ },
+ {
+  "id": "wrong_format-3",
+  "attempts": 1,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 33.6883822803632,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 41.528987530244095,
+    "code": null
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 60.27323742890369,
+    "code": "FILE_FORMAT"
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 70.70273387565264,
+    "code": "FILE_FORMAT"
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 89.19837881084597,
+    "code": "FILE_FORMAT"
+   }
+  ],
+  "now": 115.16,
+  "expect_blocker": "wrong_format",
+  "expect_action": "guided_recapture"
+ },
+ {
+  "id": "wrong_format-4",
+  "attempts": 3,
+  "lang": "hi",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 9.753564062111622,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 28.94012436529157,
+    "code": null
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 47.82749676660653,
+    "code": "FILE_FORMAT"
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 63.35803392022905,
+    "code": "FILE_FORMAT"
+   }
+  ],
+  "now": 98.36,
+  "expect_blocker": "wrong_format",
+  "expect_action": "human_handoff"
+ },
+ {
+  "id": "wrong_format-5",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 33.87968347767608,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 43.301964879901114,
+    "code": null
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 66.97935453105734,
+    "code": "FILE_FORMAT"
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 77.205112551305,
+    "code": "FILE_FORMAT"
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 99.89191317433583,
+    "code": "FILE_FORMAT"
+   }
+  ],
+  "now": 137.87,
+  "expect_blocker": "wrong_format",
+  "expect_action": "convert_file"
+ },
+ {
+  "id": "liveness-1",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 31.152745748053498,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 57.43395554429456,
+    "code": null
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 69.92129448904011,
+    "code": "LIVENESS"
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 82.2955899537439,
+    "code": "LIVENESS"
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 98.21506628017002,
+    "code": "LIVENESS"
+   }
+  ],
+  "now": 157.73,
+  "expect_blocker": "liveness",
+  "expect_action": "retry_liveness_tips"
+ },
+ {
+  "id": "liveness-2",
+  "attempts": 0,
+  "lang": "hi",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 19.345609844423088,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 56.69029602675271,
+    "code": null
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 73.07242533392846,
+    "code": "LIVENESS"
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 93.05509599841261,
+    "code": "LIVENESS"
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 107.7332171846281,
+    "code": "LIVENESS"
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 122.88519012179677,
+    "code": "LIVENESS"
+   }
+  ],
+  "now": 175.07,
+  "expect_blocker": "liveness",
+  "expect_action": "retry_liveness_tips"
+ },
+ {
+  "id": "liveness-3",
+  "attempts": 1,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 17.659590739818796,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 46.40095367313883,
+    "code": null
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 62.15523927856175,
+    "code": "LIVENESS"
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 83.86909004983298,
+    "code": "LIVENESS"
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 94.82264297205722,
+    "code": "LIVENESS"
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 109.1490861043645,
+    "code": "LIVENESS"
+   }
+  ],
+  "now": 136.1,
+  "expect_blocker": "liveness",
+  "expect_action": "switch_to_video_kyc"
+ },
+ {
+  "id": "liveness-4",
+  "attempts": 3,
+  "lang": "hi",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 33.78284903938338,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 52.76220338002532,
+    "code": null
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 79.03597570479252,
+    "code": "LIVENESS"
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 99.72333350191815,
+    "code": "LIVENESS"
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 113.34784246090878,
+    "code": "LIVENESS"
+   }
+  ],
+  "now": 120.42,
+  "expect_blocker": "liveness",
+  "expect_action": "human_handoff"
+ },
+ {
+  "id": "liveness-5",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 18.05484619183913,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 53.054796786668874,
+    "code": null
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 67.65899278548935,
+    "code": "LIVENESS"
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 94.73063352348993,
+    "code": "LIVENESS"
+   },
+   {
+    "type": "liveness_failed",
+    "step": "kyc",
+    "ts": 109.2515502616072,
+    "code": "LIVENESS"
+   }
+  ],
+  "now": 153.85,
+  "expect_blocker": "liveness",
+  "expect_action": "retry_liveness_tips"
+ },
+ {
+  "id": "offer_jargon-1",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 8.701205183551126,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 37.777064895804514,
+    "code": null
+   },
+   {
+    "type": "upload_ok",
+    "step": "kyc",
+    "ts": 54.05572239455221,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "offer",
+    "ts": 85.79548707991916,
+    "code": null
+   },
+   {
+    "type": "back",
+    "step": "offer",
+    "ts": 101.46972613234752,
+    "code": null
+   },
+   {
+    "type": "back",
+    "step": "offer",
+    "ts": 112.2230447211233,
+    "code": null
+   }
+  ],
+  "now": 141.32,
+  "expect_blocker": "offer_jargon",
+  "expect_action": "explain_kfs"
+ },
+ {
+  "id": "offer_jargon-2",
+  "attempts": 0,
+  "lang": "hi",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 38.568215540084594,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 74.45649954026939,
+    "code": null
+   },
+   {
+    "type": "upload_ok",
+    "step": "kyc",
+    "ts": 92.87868278029661,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "offer",
+    "ts": 129.64668949225228,
+    "code": null
+   },
+   {
+    "type": "kfs_open",
+    "step": "offer",
+    "ts": 139.04213637098417,
+    "code": null
+   }
+  ],
+  "now": 442.91,
+  "expect_blocker": "offer_jargon",
+  "expect_action": "explain_kfs"
+ },
+ {
+  "id": "offer_jargon-3",
+  "attempts": 1,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 16.22085115005929,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 37.91929469444371,
+    "code": null
+   },
+   {
+    "type": "upload_ok",
+    "step": "kyc",
+    "ts": 50.46490311508852,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "offer",
+    "ts": 86.82537040737685,
+    "code": null
+   },
+   {
+    "type": "kfs_open",
+    "step": "offer",
+    "ts": 96.18860568833755,
+    "code": null
+   }
+  ],
+  "now": 486.46,
+  "expect_blocker": "offer_jargon",
+  "expect_action": "schedule_callback"
+ },
+ {
+  "id": "offer_jargon-4",
+  "attempts": 3,
+  "lang": "hi",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 33.92118477363234,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 44.50087853718777,
+    "code": null
+   },
+   {
+    "type": "upload_ok",
+    "step": "kyc",
+    "ts": 62.0800523819786,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "offer",
+    "ts": 90.82231041774028,
+    "code": null
+   },
+   {
+    "type": "back",
+    "step": "offer",
+    "ts": 105.10224574045507,
+    "code": null
+   },
+   {
+    "type": "back",
+    "step": "offer",
+    "ts": 120.82463158355922,
+    "code": null
+   }
+  ],
+  "now": 136.52,
+  "expect_blocker": "offer_jargon",
+  "expect_action": "human_handoff"
+ },
+ {
+  "id": "offer_jargon-5",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 16.78964783297352,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 28.70764201991424,
+    "code": null
+   },
+   {
+    "type": "upload_ok",
+    "step": "kyc",
+    "ts": 38.793868433620375,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "offer",
+    "ts": 56.22899029994948,
+    "code": null
+   },
+   {
+    "type": "kfs_open",
+    "step": "offer",
+    "ts": 73.98582841226765,
+    "code": null
+   }
+  ],
+  "now": 440.84,
+  "expect_blocker": "offer_jargon",
+  "expect_action": "explain_kfs"
+ },
+ {
+  "id": "timeout-1",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 11.008058955015526,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 38.41031236027664,
+    "code": null
+   },
+   {
+    "type": "upload_ok",
+    "step": "kyc",
+    "ts": 61.55364412889557,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "offer",
+    "ts": 92.55920891794324,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "bank",
+    "ts": 127.87886478873179,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "review",
+    "ts": 140.97214587369103,
+    "code": null
+   }
+  ],
+  "now": 1583.35,
+  "expect_blocker": "timeout",
+  "expect_action": "send_resume_link"
+ },
+ {
+  "id": "timeout-2",
+  "attempts": 0,
+  "lang": "hi",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 5.126639224079439,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 27.684607822767052,
+    "code": null
+   },
+   {
+    "type": "upload_ok",
+    "step": "kyc",
+    "ts": 41.734565813606004,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "offer",
+    "ts": 65.00807064352472,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "bank",
+    "ts": 103.25465822195935,
+    "code": null
+   }
+  ],
+  "now": 3080.54,
+  "expect_blocker": "timeout",
+  "expect_action": "send_resume_link"
+ },
+ {
+  "id": "timeout-3",
+  "attempts": 1,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 32.47050492616535,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 53.01459398762082,
+    "code": null
+   },
+   {
+    "type": "upload_ok",
+    "step": "kyc",
+    "ts": 67.12052524938477,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "offer",
+    "ts": 98.32071781858716,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "bank",
+    "ts": 129.1831094438522,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "review",
+    "ts": 150.56396629767303,
+    "code": null
+   }
+  ],
+  "now": 2245.7,
+  "expect_blocker": "timeout",
+  "expect_action": "schedule_callback"
+ },
+ {
+  "id": "timeout-4",
+  "attempts": 3,
+  "lang": "hi",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 34.06859384310586,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 60.27642569459397,
+    "code": null
+   },
+   {
+    "type": "upload_ok",
+    "step": "kyc",
+    "ts": 76.02649876993087,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "offer",
+    "ts": 106.8997000039856,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "bank",
+    "ts": 146.88355339390665,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "review",
+    "ts": 180.10673729970588,
+    "code": null
+   },
+   {
+    "type": "session_expired",
+    "step": "review",
+    "ts": 181.10673729970588,
+    "code": null
+   }
+  ],
+  "now": 183.0,
+  "expect_blocker": "timeout",
+  "expect_action": "schedule_callback"
+ },
+ {
+  "id": "timeout-5",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 19.58705321319562,
+    "code": null
+   },
+   {
+    "type": "session_expired",
+    "step": "basic",
+    "ts": 20.58705321319562,
+    "code": null
+   }
+  ],
+  "now": 37.19,
+  "expect_blocker": "timeout",
+  "expect_action": "send_resume_link"
+ },
+ {
+  "id": "clean_complete-1",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 38.190948850527825,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 63.771346397727676,
+    "code": null
+   },
+   {
+    "type": "upload_ok",
+    "step": "kyc",
+    "ts": 79.67479712429696,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "offer",
+    "ts": 111.1580168261228,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "bank",
+    "ts": 150.87174834771287,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "review",
+    "ts": 183.64842516504908,
+    "code": null
+   },
+   {
+    "type": "submit",
+    "step": "review",
+    "ts": 198.60958875091464,
+    "code": null
+   }
+  ],
+  "now": 302.79,
+  "expect_blocker": null,
+  "expect_action": null
+ },
+ {
+  "id": "clean_complete-2",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 21.128780294336288,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 30.625183189232164,
+    "code": null
+   },
+   {
+    "type": "upload_ok",
+    "step": "kyc",
+    "ts": 43.23845584152555,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "offer",
+    "ts": 63.86765301715763,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "bank",
+    "ts": 98.6254369837614,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "review",
+    "ts": 128.18986284422434,
+    "code": null
+   },
+   {
+    "type": "submit",
+    "step": "review",
+    "ts": 143.64393891863884,
+    "code": null
+   }
+  ],
+  "now": 716.29,
+  "expect_blocker": null,
+  "expect_action": null
+ },
+ {
+  "id": "clean_near_miss-3",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 17.5943710562279,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 29.86077393093033,
+    "code": null
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 39.86077393093033,
+    "code": "IMG_BLUR"
+   }
+  ],
+  "now": 79.6,
+  "expect_blocker": null,
+  "expect_action": null
+ },
+ {
+  "id": "clean_near_miss-4",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 18.392899047048843,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 52.326188075333434,
+    "code": null
+   },
+   {
+    "type": "upload_failed",
+    "step": "kyc",
+    "ts": 62.326188075333434,
+    "code": "IMG_CROPPED"
+   },
+   {
+    "type": "upload_ok",
+    "step": "kyc",
+    "ts": 77.32618807533343,
+    "code": null
+   }
+  ],
+  "now": 152.6,
+  "expect_blocker": null,
+  "expect_action": null
+ },
+ {
+  "id": "clean_near_miss-5",
+  "attempts": 0,
+  "lang": "en",
+  "events": [
+   {
+    "type": "step_view",
+    "step": "basic",
+    "ts": 25.047913761828312,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "kyc",
+    "ts": 51.95271560830506,
+    "code": null
+   },
+   {
+    "type": "upload_ok",
+    "step": "kyc",
+    "ts": 80.27265147793227,
+    "code": null
+   },
+   {
+    "type": "step_view",
+    "step": "offer",
+    "ts": 108.54807602491803,
+    "code": null
+   },
+   {
+    "type": "kfs_open",
+    "step": "offer",
+    "ts": 118.54807602491803,
+    "code": null
+   }
+  ],
+  "now": 197.08,
+  "expect_blocker": null,
+  "expect_action": null
+ }
+]
