@@ -37,6 +37,24 @@ flowchart LR
   D -->|not allowed or 3rd attempt| H[Hand off to a person]
 ```
 
+## System design
+
+![Pakka system design](docs/screenshots/00-system-design.png)
+
+## Screenshots
+
+Two failed Aadhaar uploads at KYC. Pakka explains what went wrong and offers a guided retake, in English or Hindi.
+
+| Rescue (English) | Rescue (Hindi) |
+|---|---|
+| ![Rescue in English](docs/screenshots/02-rescue-english.png) | ![Rescue in Hindi](docs/screenshots/03-rescue-hindi.png) |
+
+The user accepts and gets a framing guide. One more failure and Pakka hands them to a person, and the audit log records each step.
+
+| Guided retake | Handoff to a person |
+|---|---|
+| ![Guided recapture](docs/screenshots/04-guided-recapture.png) | ![Human handoff](docs/screenshots/05-handoff.png) |
+
 ## Run it
 
 ```bash
