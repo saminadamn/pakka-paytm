@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pakka · live demo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23002E6E'/%3E%3Cpath d='M16 5l2.6 8.4L27 16l-8.4 2.6L16 27l-2.6-8.4L5 16l8.4-2.6z' fill='%2300BAF2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400;500;600;700&family=Wix+Madefor+Text:wght@400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#000F24;--ink2:#03193A;--edge:#16294A;--fog:#8C9BB3;--paper:#F4F7FB;
+  --navy:#002E6E;--cyan:#00BAF2;--cyanSoft:#E3F6FD;
+  --card:#fff;--line:#E3E9F2;--text:#0A1A33;--muted:#5B6B83;
+  --green:#14834B;--greenBg:#E6F5EC;--amber:#A85A12;--amberBg:#FFF1E0;
+  --display:"Wix Madefor Display","Segoe UI",system-ui,sans-serif;
+  --body:"Wix Madefor Text","Segoe UI",system-ui,sans-serif;
+  --serif:"Instrument Serif",Georgia,serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--body);background:var(--ink);color:#F2F5FA;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+@media(max-width:700px){.wrap{padding:0 16px}}
+.it{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0;background:linear-gradient(95deg,#00BAF2 0%,#62D4FF 45%,#C9F0FF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.dim{color:#5E6F8C}
+.eyebrow{font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:22px}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto;z-index:20;transition:background .25s,border-color .25s;border-bottom:1px solid transparent}
+body.scrolled .nav{background:rgba(0,15,36,.88);backdrop-filter:blur(12px);border-color:var(--edge)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{font-family:var(--display);font-weight:600;font-size:21px;text-decoration:none;display:flex;align-items:center;gap:8px;color:#fff}
+.brand i{width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+.links{display:flex;align-items:center;gap:26px;font-size:15px}
+.links a{text-decoration:none;color:#C7D1E0}.links a:hover{color:#fff}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:99px;padding:12px 24px;font:500 15.5px var(--body);text-decoration:none;border:1px solid rgba(255,255,255,.28);color:#fff;background:transparent;cursor:pointer;transition:background .2s,border-color .2s}
+.pill:hover{border-color:#fff}
+.pill.solid{background:#fff;color:var(--ink);border-color:#fff}
+.pill.sm{padding:9px 18px;font-size:14.5px}
+@media(max-width:860px){.links a:not(.pill){display:none}}
+
+/* hero */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;text-align:center;overflow:hidden;padding:120px 0 90px}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(60% 50% at 50% 108%,rgba(0,186,242,.38),transparent 70%),
+  radial-gradient(40% 40% at 88% 10%,rgba(0,46,110,.9),transparent 70%),
+  radial-gradient(35% 35% at 8% 30%,rgba(0,90,170,.35),transparent 70%)}
+.hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(70% 60% at 50% 45%,#000,transparent)}
+.hero>*{position:relative;z-index:1}
+.chip-top{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);border-radius:99px;padding:8px 16px;font-size:14px;color:#D5DDEA;margin-bottom:34px}
+.chip-top i{width:7px;height:7px;border-radius:50%;background:var(--cyan)}
+.hero h1{font-family:var(--display);font-weight:500;font-size:clamp(46px,7.6vw,112px);line-height:.98;letter-spacing:-.035em;margin:0 auto;max-width:1100px}
+.hero h1 .it{font-size:1.08em;line-height:.9}
+.hero p{font-size:clamp(17px,1.6vw,21px);line-height:1.55;color:#B4C0D3;max-width:760px;margin:30px auto 40px}
+.ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero-foot{position:absolute;left:0;right:0;bottom:26px;display:flex;justify-content:space-between;font-size:13px;color:#7F8FA9}
+.hero-foot span:last-child{letter-spacing:.2em}
+@media(max-width:700px){.hero-foot{justify-content:center;text-align:center}.hero-foot span:last-child{display:none}}
+
+/* sections */
+section.dark{padding:130px 0;border-top:1px solid var(--edge)}
+.statement{font-family:var(--display);font-weight:500;font-size:clamp(32px,4.4vw,60px);line-height:1.12;letter-spacing:-.025em;max-width:980px;margin:0}
+.statement .it{font-size:1.06em}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:90px;border-top:1px solid var(--edge)}
+.stats div{padding:34px 28px 6px;border-left:1px solid var(--edge)}
+.stats div:first-child{border-left:none;padding-left:0}
+.stats b{display:block;font-family:var(--display);font-weight:500;font-size:clamp(44px,5vw,72px);letter-spacing:-.04em;line-height:1}
+.stats div:first-child b{color:var(--cyan)}
+.stats span{display:block;margin-top:16px;font-size:15px;line-height:1.5;color:#A3B0C4}
+@media(max-width:860px){.stats{grid-template-columns:1fr 1fr}.stats div{padding:28px 18px 16px}.stats div:nth-child(3){border-left:none;padding-left:0}}
+
+.h2{color:#fff;font-family:var(--display);font-weight:500;font-size:clamp(34px,4.4vw,58px);letter-spacing:-.03em;line-height:1.05;margin:0 0 56px;max-width:900px}
+.loop{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.loop div{border:1px solid var(--edge);border-radius:20px;padding:26px 22px 30px;background:linear-gradient(180deg,rgba(255,255,255,.035),transparent)}
+.loop em{font-style:normal;font-family:var(--display);font-size:14px;color:var(--cyan)}
+.loop h4{font-family:var(--display);font-weight:500;font-size:23px;letter-spacing:-.01em;margin:40px 0 10px}
+.loop p{margin:0;font-size:14.5px;line-height:1.55;color:#A3B0C4}
+.loop .warn{border-color:rgba(255,170,90,.35)}.loop .warn em{color:#FFB46B}
+@media(max-width:1000px){.loop{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.loop{grid-template-columns:1fr}}
+
+.vs{display:grid;grid-template-columns:1.1fr 1fr 1fr;border-top:1px solid var(--edge)}
+.vs>div{padding:20px 0;border-bottom:1px solid var(--edge);font-size:17px;line-height:1.45}
+.vs .k{color:#7F8FA9;font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding-top:23px}
+.vs .c{color:#7F8FA9}
+.vs .p{color:#fff}
+.vs .hd{font-family:var(--display);font-size:15px;color:#7F8FA9;padding:0 0 16px;border-bottom:1px solid var(--edge)}
+.vs .hd.p{color:var(--cyan)}
+@media(max-width:700px){.vs{grid-template-columns:1fr 1fr}.vs .k{grid-column:1/-1;border-bottom:none;padding-bottom:0}.vs .hd:first-child{display:none}}
+
+.ev{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ev>div{border:1px solid var(--edge);border-radius:22px;padding:34px}
+.ev .big{font-family:var(--display);font-weight:500;font-size:64px;letter-spacing:-.04em;line-height:1}
+.ev h4{font-family:var(--display);font-weight:500;font-size:20px;margin:0 0 26px;color:#C7D1E0}
+.ev p{color:#A3B0C4;font-size:15px;line-height:1.6;margin:18px 0 0}
+.ev .hl{border-color:rgba(0,186,242,.5);background:radial-gradient(80% 90% at 100% 0%,rgba(0,186,242,.12),transparent)}
+.ev .hl .big{color:var(--cyan)}
+.next{margin-top:40px;font-size:17px;color:#C7D1E0;line-height:1.6}
+@media(max-width:800px){.ev{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--edge);padding:46px 0 60px;color:#7F8FA9;font-size:14px;line-height:1.7}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer b{color:#fff;font-family:var(--display);font-weight:600}
+
+/* live demo */
+#demo{background:var(--paper);color:var(--text);padding:120px 0 110px;scroll-margin-top:0}
+#demo .eyebrow{color:#0077B6}
+#demo .h2{color:var(--ink);margin-bottom:18px}
+#demo .h2 .it{background:linear-gradient(95deg,#0077C8,#00BAF2);-webkit-background-clip:text;background-clip:text}
+.howto{font-size:17px;line-height:1.6;color:var(--muted);max-width:820px;margin:0 0 44px}
+.howto b{color:var(--text);font-weight:600}
+.howto a{color:#0077C8}
+.window{max-width:1360px;margin:0 auto;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:0 40px 90px -30px rgba(0,30,80,.35),0 2px 6px rgba(0,30,80,.05);overflow:hidden}
+.bar{display:flex;align-items:center;gap:8px;padding:13px 18px;border-bottom:1px solid var(--line);background:#FAFBFD}
+.bar i{width:11px;height:11px;border-radius:50%;background:#E1E6EE}
+.bar span{margin-left:14px;font-size:12.5px;color:var(--muted);background:#EEF2F7;border-radius:8px;padding:5px 14px}
+.app{display:grid;grid-template-columns:210px minmax(0,1fr) 380px;background:var(--paper)}
+@media(max-width:1180px){.app{grid-template-columns:minmax(0,1fr) 360px}.app>.side{display:none}}
+@media(max-width:860px){.app{grid-template-columns:minmax(0,1fr)}}
+
+.side{background:#fff;border-right:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:4px}
+.logo{font-family:var(--display);font-weight:700;font-size:22px;color:var(--navy);letter-spacing:-.4px;padding:0 10px}.logo span{color:var(--cyan)}
+.by{font-size:12px;color:var(--muted);margin:2px 10px 18px}
+.side a{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:10px;color:var(--muted);text-decoration:none;font-size:14px;font-weight:500}
+.side a svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8}
+.side a.on{background:var(--cyanSoft);color:var(--navy);font-weight:600}
+.tag{margin-top:auto;font-size:11.5px;line-height:1.45;color:var(--muted);background:var(--paper);padding:10px 12px;border-radius:10px}
+
+.main{padding:24px 26px;display:flex;flex-direction:column;gap:16px;min-width:0}
+@media(max-width:860px){.main{padding:16px}}
+.top{display:flex;justify-content:space-between;align-items:center}
+.hi{font-family:var(--display);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-.02em}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:600;font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+h2{margin:0;font-family:var(--display);font-weight:600;font-size:19px;color:var(--ink);letter-spacing:-.01em}
+h3{margin:0 0 4px;font-family:var(--display);font-weight:600;font-size:17px;color:var(--ink)}
+.muted{color:var(--muted);font-size:14px}
+.jhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.badge{font-size:13px;font-weight:600;color:var(--navy);background:var(--cyanSoft);padding:6px 12px;border-radius:99px}
+
+.steps{display:flex;margin:22px 0 24px}
+.steps div{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);position:relative;text-align:center}
+.steps div:not(:last-child)::after{content:"";position:absolute;top:14px;left:calc(50% + 18px);right:calc(-50% + 18px);height:2px;background:var(--line)}
+.steps div.done:not(:last-child)::after{background:var(--navy)}
+.steps b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1.5px solid #CBD5E3;font-size:12.5px;color:var(--muted);font-weight:600}
+.steps .done b{background:var(--navy);border-color:var(--navy);color:#fff}
+.steps .now b{background:var(--cyan);border-color:var(--cyan);color:#fff;box-shadow:0 0 0 5px rgba(0,186,242,.16)}
+.steps .now{color:var(--ink);font-weight:600}
+
+#demo button,#demo .btn{font:500 14px var(--body);border-radius:10px;padding:10px 16px;border:1px solid var(--line);background:#fff;color:var(--navy);cursor:pointer;transition:border-color .15s,background .15s}
+#demo button:hover,#demo .btn:hover{border-color:#B9C7DA}
+#demo button.primary,#demo .btn.primary{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:600}
+#demo button.primary:hover,#demo .btn.primary:hover{background:#00245A}
+#demo button.ghost{background:var(--paper)}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+
+.kv{display:grid;grid-template-columns:auto 1fr;gap:10px 24px;background:var(--paper);border-radius:12px;padding:16px;font-size:14px;margin:14px 0 16px}
+.kv span{color:var(--muted)}
+.docs{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.doc{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.doc.now{border-color:var(--cyan);background:#FAFDFF;flex-wrap:wrap}
+.ic{width:36px;height:36px;border-radius:9px;background:var(--cyanSoft);display:grid;place-items:center;flex:none}
+.ic svg{width:19px;height:19px;stroke:var(--navy);fill:none;stroke-width:1.8}
+.doc .t{flex:1;min-width:0}.doc .t b{display:block;font-size:14.5px;color:var(--ink);font-weight:600}.doc .t span{font-size:12.5px;color:var(--muted)}
+.st{font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px;white-space:nowrap}
+.st.ok{background:var(--greenBg);color:var(--green)}.st.need{background:var(--amberBg);color:var(--amber)}.st.wait{background:var(--paper);color:var(--muted)}
+.upl{flex-basis:100%;padding-left:50px}
+@media(max-width:600px){.upl{padding-left:0}}
+.frame{border:2.5px dashed var(--cyan);border-radius:12px;height:110px;display:flex;align-items:center;justify-content:center;color:#D8F4FF;background:var(--ink2);margin:10px 0 0;font-weight:500}
+#doc{margin-top:8px;font-size:13px}
+
+.offercard{background:var(--ink2);background-image:radial-gradient(70% 120% at 100% 0%,rgba(0,186,242,.35),transparent 60%);color:#fff;border-radius:16px;padding:22px;margin:14px 0 6px}
+.offercard .amt{font-size:13px;color:#A9B8CF}.offercard strong{display:block;font-family:var(--display);font-weight:500;font-size:38px;letter-spacing:-.03em;margin:2px 0 16px}
+.offercard .g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12.5px;border-top:1px solid rgba(255,255,255,.14);padding-top:14px}
+.offercard .g span{color:#A9B8CF;display:block}.offercard .g b{font-size:16px;font-weight:600}
+.success{text-align:center;padding:24px 0}
+.success .tk{width:60px;height:60px;border-radius:50%;background:var(--green);color:#fff;font-size:28px;display:grid;place-items:center;margin:0 auto 12px}
+
+.demo{border:1.5px dashed #C9D4E3;border-radius:14px;padding:13px 16px}
+.demo .h{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.demo .row{margin:6px 0 0}
+#demo .demo button{font-size:13px;padding:8px 12px}
+.clock{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted)}
+
+.assist{padding:24px 24px 24px 0;display:flex;flex-direction:column;gap:16px;min-width:0}
+@media(max-width:860px){.assist{padding:0 16px 24px}}
+.pakka{border:1.5px solid var(--line);transition:border-color .2s,box-shadow .2s}
+.pakka.show{border-color:var(--cyan);box-shadow:0 14px 36px -10px rgba(0,186,242,.35)}
+.pakka .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.who{display:flex;align-items:center;gap:10px}.who b{color:var(--ink);font-size:16px;font-family:var(--display);font-weight:600}
+.av{width:36px;height:36px;border-radius:50%;background:var(--ink2);color:var(--cyan);display:grid;place-items:center;font-size:16px}
+.status{font-size:12px;color:var(--green)}.status::before{content:"● "}
+.pakka.show .status{color:var(--amber)}
+.status .b{display:none}.pakka.show .status .a{display:none}.pakka.show .status .b{display:inline}
+.pakka:not(.show) .live{display:none}.pakka.show .idle{display:none}
+.bubble{background:var(--cyanSoft);border-radius:4px 16px 16px 16px;padding:14px 16px;line-height:1.55;font-size:15px;color:var(--text)}
+.msg{white-space:pre-line}
+.why{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:14px 0 2px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chip{font-size:12px;padding:4px 10px;border-radius:99px;background:var(--paper);color:var(--muted);border:1px solid var(--line)}
+.chip.warn{background:var(--amberBg);color:var(--amber);border-color:transparent}
+.lang{display:flex;background:var(--paper);border-radius:99px;padding:3px}
+#demo .lang button{padding:5px 12px;font-size:12.5px;border:none;background:transparent;border-radius:99px}
+#demo .lang .on{background:var(--navy);color:#fff}
+.toast{margin-top:10px;font-size:14px;color:var(--green);min-height:20px}
+.sm{padding:18px;overflow-x:auto}.sm h3{font-size:15px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--muted);font-weight:600}
+#demo{padding:0;background:var(--paper);min-height:100vh}
+.dbar{position:sticky;top:0;z-index:10;background:var(--ink);color:#fff;border-bottom:1px solid var(--edge)}
+.dbar .in{max-width:1440px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dbar .brand{font-size:19px}
+.dbar .mid{font-size:13.5px;color:#9AA9C0}
+.dbar .acts{display:flex;gap:8px}
+@media(max-width:760px){.dbar .mid{display:none}.dbar .in{padding:0 12px}}
+.dbar .pill{padding:8px 16px;font-size:14px}
+.app{max-width:1440px;margin:0 auto}
+body.embed .dbar{display:none}
+.tour-hl{outline:3px solid var(--cyan)!important;outline-offset:3px;border-radius:12px;transition:outline-color .2s}
+.cap{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:30;width:min(720px,calc(100% - 24px));background:rgba(0,15,36,.94);backdrop-filter:blur(10px);color:#fff;border:1px solid var(--edge);border-radius:18px;padding:16px 18px;box-shadow:0 20px 50px -10px rgba(0,0,0,.5);display:none}
+.cap.on{display:block}
+.cap .n{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+.cap .t{font-family:var(--display);font-size:19px;line-height:1.35}
+.cap .prog{height:3px;background:var(--edge);border-radius:3px;margin-top:14px;overflow:hidden}
+.cap .prog i{display:block;height:100%;width:0;background:var(--cyan);transition:width .4s}
+.cap .row{margin-top:12px;gap:8px}
+@media(max-width:560px){.dbar .hide-sm{display:none}}
+#demo .cap .pill{color:#fff;background:transparent;border:1px solid rgba(255,255,255,.3);border-radius:99px;padding:8px 16px;font-size:14px}
+#demo .cap .pill.solid{background:#fff;color:var(--ink)}
+</style>
+</head>
+<body>
+<main id="demo">
+<header class="dbar"><div class="in">
+<a class="brand" href="/"><i></i>Pakka</a>
+<div class="mid">Live demo · sample personal loan journey · synthetic data, not connected to Paytm</div>
+<div class="acts"><a class="pill" href="/demo?tour=1">&#9654; Watch the tour</a><a class="pill hide-sm" href="/demo">Restart</a><a class="pill solid" href="/">Back to Pakka</a></div>
+</div></header>
+<div class="app">
+<aside class="side">
+<div class="logo">Pakka<span>✦</span></div>
+<div class="by">Your AI loan companion</div>
+<a href="#demo"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+<a href="#demo" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Loans</a>
+<a href="#demo"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Credit cards</a>
+<a href="#demo"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Insurance</a>
+<a href="#demo"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Investments</a>
+<div class="tag">Prototype · synthetic data only · not connected to Paytm</div>
+</aside>
+
+<main class="main">
+<div class="top">
+<div><div class="hi">Hi Samina,</div><div class="muted">Let's complete your personal loan application.</div></div>
+<div class="avatar">SP</div>
+</div>
+<section class="card">
+<div class="jhead"><div><h2>Personal loan application</h2><div class="muted" id="stepno"></div></div><span class="badge">₹50,000 · 12 months</span></div>
+<div class="steps" id="steps"></div>
+<div id="screen"></div>
+</section>
+<div class="demo">
+<div class="h">Demo controls · simulate time passing</div>
+<div class="clock">Simulated clock: <b id="clock">0s</b>
+<button class="ghost" data-tick="30">+30s</button><button class="ghost" data-tick="120">+2 min</button><button class="ghost" data-tick="900">+15 min</button>
+</div>
+</div>
+</main>
+
+<aside class="assist">
+<section class="card pakka" id="pakka">
+<div class="head">
+<div class="who"><div class="av">✦</div><div><b>Pakka AI</b><div class="status"><span class="a">Watching your journey</span><span class="b">Stepped in to help</span></div></div></div>
+<div class="lang"><button data-lang="en" class="on">English</button><button data-lang="hi">हिंदी</button></div>
+</div>
+<div class="idle"><div class="bubble">Hi Samina! I'm keeping an eye on your application. If anything gets stuck, I'll explain what went wrong and help you fix it.</div></div>
+<div class="live">
+<div class="bubble msg" id="msg"></div>
+<div class="why">Why Pakka stepped in</div>
+<div class="chips" id="chips"></div>
+<div class="row"><button class="primary" id="yes">Yes, help me</button><button id="listen">Listen</button><button id="no">Not now</button></div>
+</div>
+<div class="toast" id="toast"></div>
+</section>
+<section class="card sm"><h3>Audit log</h3><div class="muted">Every Pakka intervention in this journey is written here.</div><table id="audit"></table></section>
+<section class="card sm"><h3>Evaluation</h3><div id="eval" class="muted">Run <code>python eval/run_eval.py</code> to fill this in.</div></section>
+</aside>
+</div>
+<div class="cap" id="cap"><div class="n"></div><div class="t"></div><div class="prog"><i></i></div>
+<div class="row" style="display:none"><a class="pill solid" href="/demo" target="_top">Try it yourself</a><a class="pill" href="/" target="_top">Back to Pakka</a></div></div>
+</main>
+<script>
+const STEPS=["basic","kyc","offer","bank","review"];
+const LABEL={basic:"Basic details",kyc:"KYC",offer:"Loan offer",bank:"Bank",review:"Review"};
+let jid,clock=0,step="basic",lang="en",last=null,open=false,done=false;
+const $=s=>document.querySelector(s);
+
+async function api(path,opt){const r=await fetch(path,opt);if(!r.ok)throw new Error(await r.text());return r.headers.get("content-type")?.includes("json")?r.json():r}
+async function send(type,code){clock+=Math.round(5+Math.random()*10);await api(`/journeys/${jid}/events`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type,step,ts:clock,code})});await check("event")}
+async function go(next){step=next;await send("step_view");render()}
+
+async function check(trigger){
+  $("#clock").textContent=clock+"s";
+  const d=await api(`/journeys/${jid}/rescue?now=${clock}&lang=${lang}&dry=true`);
+  if(!d.detection.stalled){hide();return}
+  if(open&&trigger==="tick")return;
+  last=await api(`/journeys/${jid}/rescue?now=${clock}&lang=${lang}`);
+  show(last);loadAudit();
+}
+function show(r){
+  open=true;$("#pakka").classList.add("show");$("#msg").textContent=r.message;$("#toast").textContent="";
+  $("#chips").innerHTML=[`blocker: ${r.detection.blocker}`,`action: ${r.action}`,...r.detection.reasons,r.escalated?"escalated to a person":"",r.policy_ok?"policy ok":"policy blocked",`${r.latency_ms} ms`].filter(Boolean).map(c=>`<span class="chip ${c.startsWith("escalated")?"warn":""}">${c}</span>`).join("");
+  $("#yes").style.display=r.needs_consent?"":"none";$("#yes").textContent=lang==="hi"?"हाँ, मदद करो":"Yes, help me";
+}
+function hide(){open=false;$("#pakka").classList.remove("show")}
+
+async function relang(l){
+  lang=l;document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("on",b.dataset.lang===l));
+  if(!last)return;const d=last.detection;
+  const r=await api(`/explain?action=${last.action}&lang=${l}&step=${d.step||""}&code=${d.code||""}`);
+  last.message=r.message;show(last);
+}
+
+const EFFECT={
+  guided_recapture:()=>{step="kyc";render(true)},
+  convert_file:()=>toast("File converted to PDF (simulated). Try uploading again."),
+  switch_to_video_kyc:()=>toast("Video KYC slot booked (simulated)."),
+  digilocker_setup_help:()=>toast("DigiLocker setup guide opened (simulated)."),
+  schedule_callback:()=>toast("Callback requested (simulated)."),
+  human_handoff:()=>toast("Handed to an agent with the full journey history (simulated)."),
+};
+function toast(t){$("#toast").textContent=t}
+
+const ICON='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4M14 10h4M14 13h3"/></svg>';
+const FILE='<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>';
+const doc=(t,s,st,cls,ic=FILE)=>`<div class="doc"><div class="ic">${ic}</div><div class="t"><b>${t}</b><span>${s}</span></div><span class="st ${cls}">${st}</span></div>`;
+
+function render(guide){
+  const at=done?STEPS.length:STEPS.indexOf(step);
+  $("#steps").innerHTML=STEPS.map((s,i)=>`<div class="${i<at?"done":i===at?"now":""}"><b>${i<at?"✓":i+1}</b>${LABEL[s]}</div>`).join("");
+  $("#stepno").textContent=done?"Completed":`Step ${at+1} of ${STEPS.length} · ${LABEL[step]}`;
+  const S=$("#screen");
+  if(done){S.innerHTML=`<div class="success"><div class="tk">✓</div><h3>Great! Your application is submitted</h3><p class="muted">Journey ${jid} finished at ${clock}s.</p></div>`;return}
+  if(step==="basic")S.innerHTML=`<h3>Basic details</h3><p class="muted">Pre-filled with sample data. Check and continue.</p>
+  <div class="kv"><span>Full name</span><b>Samina P.</b><span>PAN</span><b>XXXXX1234X</b><span>Monthly income</span><b>₹45,000</b><span>Employment</span><b>Salaried</b></div>
+  <button class="primary" id="next">Continue</button>`;
+  if(step==="kyc")S.innerHTML=`<h3>Upload documents</h3><p class="muted">We need these to verify your identity.</p>
+  <div class="docs">
+  <div class="doc now"><div class="ic">${ICON}</div><div class="t"><b>Identity proof</b><span>Aadhaar card, front side</span></div><span class="st need">Action needed</span>
+   <div class="upl">${guide?`<div class="frame">Keep all four corners inside the frame</div>`:""}
+   <div class="row"><label class="btn primary">Upload a real photo<input type="file" id="file" accept="image/*" hidden></label><button id="ok">Good photo (simulated)</button></div>
+   <div class="muted" id="doc"></div></div></div>
+  ${doc("PAN card","From basic details","Verified","ok")}
+  ${doc("Income proof","Salary slip","Uploaded","ok")}
+  ${doc("Bank statement","Last 3 months","Next","wait")}
+  </div>
+  <div class="demo" style="margin-top:16px"><div class="h">Demo controls · simulate what real users hit</div>
+  <div class="row"><button data-fail="IMG_CROPPED">Corner cut off</button><button data-fail="IMG_BLUR">Blurry</button><button data-fail="IMG_GLARE">Glare</button><button data-fail="FILE_FORMAT">Wrong file type</button><button id="live">Face check fails</button><button id="dl">No DigiLocker</button></div></div>`;
+  if(step==="offer")S.innerHTML=`<h3>Your loan offer</h3><p class="muted">Sample numbers for the demo.</p>
+  <div class="offercard"><div class="amt">Loan amount</div><strong>₹50,000</strong><div class="g"><div><span>Tenure</span><b>12 months</b></div><div><span>EMI</span><b>₹4,600</b></div><div><span>APR</span><b>21.6%</b></div></div></div>
+  <div class="row"><button id="kfs">Open Key Fact Statement</button><button id="back">Go back</button><button class="primary" id="accept">Accept offer</button></div>`;
+  if(step==="bank")S.innerHTML=`<h3>Bank account</h3><p class="muted">Disbursal goes straight to your own account.</p>
+  <div class="docs">${doc("Savings account","XXXX XXXX 4821 · sample","Verified","ok")}</div><div class="row"><button class="primary" id="next">Continue</button></div>`;
+  if(step==="review")S.innerHTML=`<h3>Review and submit</h3><p class="muted">Everything is in place.</p>
+  <div class="kv"><span>Loan amount</span><b>₹50,000</b><span>EMI</span><b>₹4,600 × 12 months</b><span>Documents</span><b>All verified</b></div>
+  <button class="primary" id="submit">Submit application</button>`;
+  bind();
+}
+function bind(){
+  const on=(id,f)=>{const el=document.getElementById(id);if(el)el.onclick=f};
+  on("next",()=>go(STEPS[STEPS.indexOf(step)+1]));
+  on("ok",async()=>{await send("upload_ok");hide();await go("offer")});
+  on("live",()=>send("liveness_failed","LIVENESS"));
+  on("dl",()=>send("digilocker_error","NOT_REGISTERED"));
+  on("kfs",()=>send("kfs_open"));
+  on("back",()=>send("back"));
+  on("accept",async()=>{hide();await go("bank")});
+  on("submit",async()=>{await send("submit");done=true;hide();render()});
+  document.querySelectorAll("[data-fail]").forEach(b=>b.onclick=()=>send("upload_failed",b.dataset.fail));
+  const f=document.getElementById("file");
+  if(f)f.onchange=async()=>{const fd=new FormData();fd.append("file",f.files[0]);f.value="";
+    const r=await api("/doccheck",{method:"POST",body:fd});
+    $("#doc").textContent=`Doc check: ${r.ok?"looks good":r.issues.join(", ")} · sharpness ${r.metrics.sharpness??"-"} · glare ${r.metrics.glare_ratio??"-"}`;
+    if(r.ok){await send("upload_ok");hide();await go("offer")}else await send("upload_failed",r.issues[0])};
+}
+
+async function loadAudit(){const rows=(await api("/audit?limit=200")).filter(r=>r.journey_id===jid).slice(0,8);$("#audit").innerHTML="<tr><th>Journey</th><th>Blocker</th><th>Action</th><th>Lang</th><th>Policy</th></tr>"+rows.map(r=>`<tr><td>${r.journey_id}</td><td>${r.blocker}</td><td>${r.action}${r.escalated?" ⇢ person":""}</td><td>${r.lang}</td><td>${r.policy_ok?"ok":"blocked"}</td></tr>`).join("")}
+async function loadEval(){try{const e=await api("/eval");const s=e.scripted_scenarios,p=e.policy,d=e.detection,l=e.latency;
+  $("#eval").innerHTML=`<table><tr><td>Synthetic journeys</td><td>${e.dataset.journeys}</td></tr><tr><td>Blocker detection accuracy</td><td>${d.accuracy}</td></tr><tr><td>Actions checked / policy violations</td><td>${p.actions_checked} / ${p.violations}</td></tr><tr><td>Scripted scenarios passed</td><td>${s.passed} / ${s.scenarios}</td></tr><tr><td>Agent latency p50 / p95</td><td>${l.p50_ms} / ${l.p95_ms} ms</td></tr></table><p class="muted">Synthetic data uses the same failure taxonomy as the detector, so this checks the logic, not real-world accuracy.</p>`}catch(e){}}
+
+$("#yes").onclick=()=>{const a=last?.action;(EFFECT[a]||(()=>toast("Done.")))();if(a!=="guided_recapture")hide()};
+$("#no").onclick=hide;
+$("#listen").onclick=async()=>{const text=$("#msg").textContent;
+  try{const r=await fetch("/speak",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,lang})});
+    if(r.ok){new Audio(URL.createObjectURL(await r.blob())).play();return}}catch(e){}
+  const u=new SpeechSynthesisUtterance(text);u.lang=lang==="hi"?"hi-IN":"en-IN";speechSynthesis.speak(u);toast("Browser voice used (set SARVAM_API_KEY for Bulbul).")};
+document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>relang(b.dataset.lang));
+document.querySelectorAll("[data-tick]").forEach(b=>b.onclick=()=>{clock+=+b.dataset.tick;check("tick")});
+
+(async()=>{jid=(await api("/journeys",{method:"POST"})).journey_id;await send("step_view");render();loadAudit();loadEval()})();
+</script>
+<script>
+// Guided tour: /demo?tour=1 clicks through the real app with captions.
+(()=>{
+  const q=new URLSearchParams(location.search);
+  if(q.has("embed"))document.body.classList.add("embed");
+  const btn=document.getElementById("tourBtn");
+  if(btn)btn.onclick=()=>{location.href="/demo?tour=1"};
+  if(!q.has("tour"))return;
+  const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+  const cap=document.getElementById("cap");
+  const click=s=>{const el=document.querySelector(s);if(el)el.click()};
+  let hl=null;
+  function focus(s){
+    if(hl)hl.classList.remove("tour-hl");
+    hl=s?document.querySelector(s):null;
+    if(!hl)return;
+    hl.classList.add("tour-hl");
+    const r=hl.getBoundingClientRect();
+    if(r.top<70||r.bottom>innerHeight-170)scrollBy({top:r.top-110,behavior:"smooth"});
+  }
+  const STEPS=[
+    ["Samina is applying for a personal loan. Her details are already filled in.","#screen",()=>click("#next")],
+    ["At KYC, her Aadhaar photo gets rejected because a corner is cut off.","[data-fail=IMG_CROPPED]",()=>click("[data-fail=IMG_CROPPED]")],
+    ["It fails a second time. She hasn't asked for help, but Pakka notices the stall.","[data-fail=IMG_CROPPED]",()=>click("[data-fail=IMG_CROPPED]")],
+    ["Pakka explains what went wrong and shows exactly why it stepped in.","#pakka",null],
+    ["The same help in Hindi, which she can also listen to.","#pakka",()=>click("[data-lang=hi]")],
+    ["She says yes. Nothing happens without her consent, and a framing guide appears.",".doc.now",()=>click("#yes")],
+    ["It fails again. Rather than loop, Pakka hands her to a person with her full history.","#pakka",()=>click("[data-fail=IMG_CROPPED]")],
+    ["Every intervention is written to the audit log.","#audit",null],
+    ["Back in English, the photo goes through and she reaches the loan offer.","#screen",()=>{click("[data-lang=en]");setTimeout(()=>click("#ok"),300)}],
+    ["She opens the Key Fact Statement and hesitates for two minutes.","#kfs",()=>{click("#kfs");setTimeout(()=>click("[data-tick='120']"),400)}],
+    ["Pakka explains APR, EMI, fees, the cooling-off period and foreclosure in plain words.","#pakka",null],
+    ["She accepts, confirms her bank account and submits.","#screen",async()=>{click("#accept");await sleep(700);click("#next");await sleep(700);click("#submit")}],
+  ];
+  async function run(){
+    cap.classList.add("on");
+    await sleep(1400);
+    for(let i=0;i<STEPS.length;i++){
+      const [text,target,act]=STEPS[i];
+      cap.querySelector(".n").textContent=`Step ${i+1} of ${STEPS.length}`;
+      cap.querySelector(".t").textContent=text;
+      cap.querySelector(".prog i").style.width=`${(i+1)/STEPS.length*100}%`;
+      if(act)await act();
+      await sleep(700);
+      focus(target);
+      await sleep(3300);
+    }
+    focus(null);
+    cap.querySelector(".n").textContent="That's the loop";
+    cap.querySelector(".t").textContent="Spot it, explain it, fix it with consent, and hand off when it can't.";
+    cap.querySelector(".row").style.display="flex";
+  }
+  run();
+})();
+</script>
+</body>
+</html>

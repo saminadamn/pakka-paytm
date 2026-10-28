@@ -31,6 +31,11 @@ def home():
     return FileResponse(STATIC / "index.html")
 
 
+@app.get("/demo")
+def demo():
+    return FileResponse(STATIC / "demo.html")
+
+
 @app.get("/health")
 def health():
     return {"ok": True, "sarvam": sarvam.enabled()}

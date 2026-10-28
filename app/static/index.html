@@ -3,263 +3,386 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pakka prototype</title>
+<title>Pakka · loan journey rescue</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23002E6E'/%3E%3Cpath d='M16 5l2.6 8.4L27 16l-8.4 2.6L16 27l-2.6-8.4L5 16l8.4-2.6z' fill='%2300BAF2'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400;500;600;700&family=Wix+Madefor+Text:wght@400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#002970;--blue:#1565E0;--sky:#00BAF2;--bg:#F3F7FC;--soft:#E8F4FD;--card:#fff;--line:#E3EBF5;--text:#0B1B33;--muted:#5A6B82;--green:#1E9E5A;--greenBg:#E7F6EE;--amber:#B5651D;--amberBg:#FFF1E2}
+:root{
+  --ink:#000F24;--ink2:#03193A;--edge:#16294A;--fog:#8C9BB3;--paper:#F4F7FB;
+  --navy:#002E6E;--cyan:#00BAF2;--cyanSoft:#E3F6FD;
+  --card:#fff;--line:#E3E9F2;--text:#0A1A33;--muted:#5B6B83;
+  --green:#14834B;--greenBg:#E6F5EC;--amber:#A85A12;--amberBg:#FFF1E0;
+  --display:"Wix Madefor Display","Segoe UI",system-ui,sans-serif;
+  --body:"Wix Madefor Text","Segoe UI",system-ui,sans-serif;
+  --serif:"Instrument Serif",Georgia,serif;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
-.app{display:grid;grid-template-columns:230px minmax(0,1fr) 400px;min-height:100vh}
-@media(max-width:1180px){.app{grid-template-columns:minmax(0,1fr) 380px}.app>.side{display:none}}
-@media(max-width:860px){.app{grid-template-columns:minmax(0,1fr)}}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--body);background:var(--ink);color:#F2F5FA;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+@media(max-width:700px){.wrap{padding:0 16px}}
+.it{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0;background:linear-gradient(95deg,#00BAF2 0%,#62D4FF 45%,#C9F0FF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.dim{color:#5E6F8C}
+.eyebrow{font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:22px}
 
-.side{background:#fff;border-right:1px solid var(--line);padding:22px 16px;display:flex;flex-direction:column;gap:6px}
-.logo{font-weight:800;font-size:26px;color:var(--navy);letter-spacing:-.6px}.logo span{color:var(--sky)}
-.by{font-size:12px;color:var(--muted);margin:-2px 0 18px}
-.side a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;color:var(--muted);text-decoration:none;font-size:14px;font-weight:500}
-.side a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
-.side a.on{background:var(--soft);color:var(--blue);font-weight:600}
-.tag{margin-top:auto;font-size:11.5px;line-height:1.45;color:var(--muted);background:var(--bg);padding:10px 12px;border-radius:12px}
+/* nav */
+.nav{position:fixed;inset:0 0 auto;z-index:20;transition:background .25s,border-color .25s;border-bottom:1px solid transparent}
+body.scrolled .nav{background:rgba(0,15,36,.88);backdrop-filter:blur(12px);border-color:var(--edge)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{font-family:var(--display);font-weight:600;font-size:21px;text-decoration:none;display:flex;align-items:center;gap:8px;color:#fff}
+.brand i{width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+.links{display:flex;align-items:center;gap:26px;font-size:15px}
+.links a{text-decoration:none;color:#C7D1E0}.links a:hover{color:#fff}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:99px;padding:12px 24px;font:500 15.5px var(--body);text-decoration:none;border:1px solid rgba(255,255,255,.28);color:#fff;background:transparent;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+.pill:hover{border-color:#fff;transform:translateY(-1px)}
+.pill.solid{background:#fff;color:var(--ink);border-color:#fff}
+.pill.sm{padding:9px 18px;font-size:14.5px}
+@media(max-width:860px){.links a:not(.pill){display:none}}
 
-.main{padding:24px 28px;display:flex;flex-direction:column;gap:18px;min-width:0}
-@media(max-width:860px){.main{padding:16px}}
-.top{display:flex;justify-content:space-between;align-items:center}
-.hi{font-size:24px;font-weight:700;color:var(--navy)}
-.avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--sky));color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 8px 24px rgba(0,41,112,.06)}
-h2{margin:0;font-size:20px;color:var(--navy)}h3{margin:0 0 4px;font-size:17px;color:var(--navy)}
-.muted{color:var(--muted);font-size:14px}
-.jhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
-.badge{font-size:13px;font-weight:600;color:var(--blue);background:var(--soft);padding:6px 12px;border-radius:99px}
+/* hero */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;text-align:center;overflow:hidden;padding:120px 0 90px}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(60% 50% at 50% 108%,rgba(0,186,242,.38),transparent 70%),
+  radial-gradient(40% 40% at 88% 10%,rgba(0,46,110,.9),transparent 70%),
+  radial-gradient(35% 35% at 8% 30%,rgba(0,90,170,.35),transparent 70%)}
+.hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(70% 60% at 50% 45%,#000,transparent)}
+.hero>*{position:relative;z-index:1}
+.chip-top{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);border-radius:99px;padding:8px 16px;font-size:14px;color:#D5DDEA;margin-bottom:34px}
+.chip-top i{width:7px;height:7px;border-radius:50%;background:var(--cyan)}
+.hero h1{font-family:var(--display);font-weight:500;font-size:clamp(46px,7.6vw,112px);line-height:.98;letter-spacing:-.035em;margin:0 auto;max-width:1100px}
+.hero h1 .it{font-size:1.08em;line-height:.9}
+.hero p{font-size:clamp(17px,1.6vw,21px);line-height:1.55;color:#B4C0D3;max-width:760px;margin:30px auto 40px}
+.ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero-foot{position:absolute;left:0;right:0;bottom:26px;display:flex;justify-content:space-between;font-size:13px;color:#7F8FA9}
+.hero-foot span:last-child{letter-spacing:.2em}
+.hero .wrap>*{animation:rise 1.1s cubic-bezier(.2,.7,.2,1) both}
+.hero .wrap>:nth-child(2){animation-delay:.12s}.hero .wrap>:nth-child(3){animation-delay:.24s}.hero .wrap>:nth-child(4){animation-delay:.36s}
+.hero-foot>*{animation-delay:.6s!important}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.chip-top i,.brand i{animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,186,242,.55)}50%{box-shadow:0 0 0 6px rgba(0,186,242,0)}}
+.hero-foot .sc{display:flex;flex-direction:column;align-items:center;gap:10px}
+.hero-foot .sc::after{content:"";width:1px;height:38px;background:linear-gradient(var(--cyan),transparent);transform-origin:top;animation:drip 2s ease-in-out infinite}
+@keyframes drip{0%{transform:scaleY(0);opacity:1}60%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(max-width:700px){.hero-foot{justify-content:center;text-align:center}.hero-foot span:last-child{display:none}}
 
-.steps{display:flex;margin:22px 0 24px}
-.steps div{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);position:relative}
-.steps div:not(:last-child)::after{content:"";position:absolute;top:15px;left:calc(50% + 20px);right:calc(-50% + 20px);height:2px;background:var(--line)}
-.steps div.done:not(:last-child)::after{background:var(--green)}
-.steps b{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid var(--line);font-size:13px;color:var(--muted)}
-.steps .done b{background:var(--green);border-color:var(--green);color:#fff}
-.steps .now b{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 0 5px rgba(21,101,224,.14)}
-.steps .now{color:var(--navy);font-weight:700}
+/* sections */
+section.dark{padding:130px 0;border-top:1px solid var(--edge)}
+.statement{font-family:var(--display);font-weight:500;font-size:clamp(32px,4.4vw,60px);line-height:1.12;letter-spacing:-.025em;max-width:980px;margin:0}
+.statement .it{font-size:1.06em}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:90px;border-top:1px solid var(--edge)}
+.stats div{padding:34px 28px 6px;border-left:1px solid var(--edge)}
+.stats div:first-child{border-left:none;padding-left:0}
+.stats b{display:block;font-family:var(--display);font-weight:500;font-size:clamp(44px,5vw,72px);letter-spacing:-.04em;line-height:1}
+.stats div:first-child b{color:var(--cyan)}
+.stats span{display:block;margin-top:16px;font-size:15px;line-height:1.5;color:#A3B0C4}
+@media(max-width:860px){.stats{grid-template-columns:1fr 1fr}.stats div{padding:28px 18px 16px}.stats div:nth-child(3){border-left:none;padding-left:0}}
 
-button,.btn{font:inherit;font-size:14px;font-weight:500;border-radius:12px;padding:10px 16px;border:1px solid var(--line);background:#fff;color:var(--navy);cursor:pointer}
-button:hover,.btn:hover{border-color:#c5d6ec}
-button.primary,.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
-button.ghost{background:var(--bg)}
-.row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.h2{color:#fff;font-family:var(--display);font-weight:500;font-size:clamp(34px,4.4vw,58px);letter-spacing:-.03em;line-height:1.05;margin:0 0 56px;max-width:900px}
+.loop{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.loop div{border:1px solid var(--edge);border-radius:20px;padding:26px 22px 30px;background:linear-gradient(180deg,rgba(255,255,255,.035),transparent)}
+.loop em{font-style:normal;font-family:var(--display);font-size:14px;color:var(--cyan)}
+.loop h4{font-family:var(--display);font-weight:500;font-size:23px;letter-spacing:-.01em;margin:40px 0 10px}
+.loop p{margin:0;font-size:14.5px;line-height:1.55;color:#A3B0C4}
+.loop .warn{border-color:rgba(255,170,90,.35)}.loop .warn em{color:#FFB46B}
+@media(max-width:1000px){.loop{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.loop{grid-template-columns:1fr}}
 
-.kv{display:grid;grid-template-columns:auto 1fr;gap:10px 24px;background:var(--bg);border-radius:14px;padding:16px;font-size:14px;margin:14px 0 16px}
-.kv span{color:var(--muted)}
-.docs{display:flex;flex-direction:column;gap:10px;margin-top:14px}
-.doc{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
-.doc.now{border-color:var(--sky);background:#FAFDFF;flex-wrap:wrap}
-.ic{width:38px;height:38px;border-radius:10px;background:var(--soft);display:grid;place-items:center;flex:none}
-.ic svg{width:20px;height:20px;stroke:var(--blue);fill:none;stroke-width:1.8}
-.doc .t{flex:1;min-width:0}.doc .t b{display:block;font-size:14.5px;color:var(--navy)}.doc .t span{font-size:12.5px;color:var(--muted)}
-.st{font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px;white-space:nowrap}
-.st.ok{background:var(--greenBg);color:var(--green)}.st.need{background:var(--amberBg);color:var(--amber)}.st.wait{background:var(--bg);color:var(--muted)}
-.upl{flex-basis:100%;padding-left:52px}
-@media(max-width:600px){.upl{padding-left:0}}
-.frame{border:3px dashed var(--sky);border-radius:14px;height:110px;display:flex;align-items:center;justify-content:center;color:#d8f4ff;background:#14213A;margin:10px 0 0;font-weight:500}
-#doc{margin-top:8px;font-size:13px}
+.vs{display:grid;grid-template-columns:1.1fr 1fr 1fr;border-top:1px solid var(--edge)}
+.vs>div{padding:20px 0;border-bottom:1px solid var(--edge);font-size:17px;line-height:1.45}
+.vs .k{color:#7F8FA9;font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding-top:23px}
+.vs .c{color:#7F8FA9}
+.vs .p{color:#fff}
+.vs .hd{font-family:var(--display);font-size:15px;color:#7F8FA9;padding:0 0 16px;border-bottom:1px solid var(--edge)}
+.vs .hd.p{color:var(--cyan)}
+@media(max-width:700px){.vs{grid-template-columns:1fr 1fr}.vs .k{grid-column:1/-1;border-bottom:none;padding-bottom:0}.vs .hd:first-child{display:none}}
 
-.offercard{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border-radius:18px;padding:20px;margin:14px 0 6px}
-.offercard .amt{font-size:13px;opacity:.8}.offercard strong{display:block;font-size:34px;letter-spacing:-.5px;margin:2px 0 14px}
-.offercard .g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12.5px}
-.offercard .g span{opacity:.75;display:block}.offercard .g b{font-size:16px}
-.success{text-align:center;padding:24px 0}
-.success .tk{width:64px;height:64px;border-radius:50%;background:var(--green);color:#fff;font-size:32px;display:grid;place-items:center;margin:0 auto 12px}
+.ev{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ev>div{border:1px solid var(--edge);border-radius:22px;padding:34px}
+.ev .big{font-family:var(--display);font-weight:500;font-size:64px;letter-spacing:-.04em;line-height:1}
+.ev h4{font-family:var(--display);font-weight:500;font-size:20px;margin:0 0 26px;color:#C7D1E0}
+.ev p{color:#A3B0C4;font-size:15px;line-height:1.6;margin:18px 0 0}
+.ev .hl{border-color:rgba(0,186,242,.5);background:radial-gradient(80% 90% at 100% 0%,rgba(0,186,242,.12),transparent)}
+.ev .hl .big{color:var(--cyan)}
+.next{margin-top:40px;font-size:17px;color:#C7D1E0;line-height:1.6}
+@media(max-width:800px){.ev{grid-template-columns:1fr}}
 
-.demo{border:1.5px dashed #c5d6ec;border-radius:16px;padding:14px 16px;background:transparent}
-.demo .h{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.demo .row{margin:6px 0 0}
-.demo button{font-size:13px;padding:8px 12px}
-.clock{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted)}
+footer{border-top:1px solid var(--edge);padding:46px 0 60px;color:#7F8FA9;font-size:14px;line-height:1.7}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer b{color:#fff;font-family:var(--display);font-weight:600}
 
-.assist{padding:24px 24px 24px 0;display:flex;flex-direction:column;gap:16px}
-@media(max-width:860px){.assist{padding:0 16px 24px}}
-.pakka{border:2px solid var(--line);transition:border-color .2s,box-shadow .2s}
-.pakka.show{border-color:var(--sky);box-shadow:0 10px 30px rgba(0,186,242,.18)}
-.pakka .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.who{display:flex;align-items:center;gap:10px}.who b{color:var(--navy);font-size:16px}
-.av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--sky),var(--blue));color:#fff;display:grid;place-items:center;font-size:18px}
-.status{font-size:12px;color:var(--green)}.status::before{content:"● "}
-.pakka.show .status{color:var(--amber)}
-.status .b{display:none}.pakka.show .status .a{display:none}.pakka.show .status .b{display:inline}
-.pakka:not(.show) .live{display:none}.pakka.show .idle{display:none}
-.bubble{background:var(--soft);border-radius:4px 16px 16px 16px;padding:14px 16px;line-height:1.55;font-size:15px}
-.msg{white-space:pre-line}
-.why{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 2px}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.chip{font-size:12px;padding:4px 10px;border-radius:99px;background:var(--bg);color:var(--muted)}
-.chip.warn{background:var(--amberBg);color:var(--amber)}
-.lang{display:flex;background:var(--bg);border-radius:99px;padding:3px}
-.lang button{padding:5px 12px;font-size:12.5px;border:none;background:transparent;border-radius:99px}.lang .on{background:var(--navy);color:#fff}
-.toast{margin-top:10px;font-size:14px;color:var(--green);min-height:20px}
-.assist{min-width:0}.sm{padding:18px;overflow-x:auto}.sm h3{font-size:15px}
-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--muted);font-weight:600}
+/* who it helps */
+.people-h{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin:110px 0 30px;flex-wrap:wrap}
+.people-h h3{font-family:var(--display);font-weight:500;font-size:clamp(28px,3vw,40px);letter-spacing:-.025em;margin:0}
+.people-h p{margin:0;color:#7F8FA9;font-size:14px}
+.people{overflow:hidden;margin:0 -32px;padding:4px 32px 6px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+@media(max-width:700px){.people{margin:0 -16px;padding:4px 16px 6px}}
+.reel{display:flex;gap:16px;width:max-content;animation:reel 60s linear infinite}
+.people:hover .reel{animation-play-state:paused}
+@keyframes reel{to{transform:translateX(calc(-50% - 8px))}}
+.person{width:300px;flex:none}
+@media(max-width:700px){.person{width:260px}}
+.person .art{transition:transform .4s cubic-bezier(.2,.7,.2,1),border-color .4s}.person:hover .art{transform:translateY(-4px);border-color:rgba(0,186,242,.4)}
+.art{height:330px;border-radius:22px;padding:26px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;border:1px solid var(--edge)}
+.art::before{content:"";position:absolute;inset:0;background:var(--g);opacity:.95}
+.art>*{position:relative}
+.art .icn{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.12);display:grid;place-items:center;backdrop-filter:blur(4px)}
+.art .icn svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:1.7}
+.art q{font-family:var(--serif);font-style:italic;font-size:27px;line-height:1.2;color:#fff;quotes:"\201C" "\201D"}
+.person b{display:block;margin-top:16px;font-family:var(--display);font-weight:500;font-size:17px}
+.person span{display:block;margin-top:4px;font-size:14px;color:#A3B0C4;line-height:1.5}
+
+/* how it works flow */
+.flow-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:50px}
+.flow-head .h2{margin:0}
+.count{font-size:13px;letter-spacing:.16em;color:#7F8FA9;text-transform:uppercase;text-align:right}
+.count .hint{display:block;margin-top:6px;font-size:11.5px;letter-spacing:.08em;color:#56667F}
+#how{padding:0}
+.how-track{height:calc(100vh + 7 * 55vh)}
+.how-sticky{position:sticky;top:0;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:96px 0 40px}
+.how-sticky .flow-head{margin-bottom:34px}
+.how-sticky .detail{min-height:360px}
+@media(max-height:560px){#how{padding:100px 0}.how-track{height:auto}.how-sticky{position:static;min-height:0;padding:0}.count .hint{display:none}}
+@media(min-width:901px) and (max-height:780px){.how-sticky{padding:80px 0 16px}.how-sticky .flow-head{margin-bottom:20px}.how-sticky .h2{font-size:42px}.how-sticky .detail{min-height:0;padding:30px 36px 28px}.steps-l li{padding:3px 0}.detail .num{font-size:64px}.detail h4{margin:10px 0}}
+.flow{display:grid;grid-template-columns:330px 1fr;gap:56px;align-items:start}
+@media(max-width:900px){.flow{grid-template-columns:1fr;gap:28px}}
+.steps-l{list-style:none;margin:0;padding:0;position:relative}
+.steps-l::before{content:"";position:absolute;left:21px;top:22px;bottom:22px;width:2px;background:var(--edge)}
+.steps-l .fill{position:absolute;left:21px;top:22px;width:2px;background:linear-gradient(var(--cyan),#62D4FF);transition:height .6s cubic-bezier(.2,.7,.2,1),width .6s cubic-bezier(.2,.7,.2,1);height:0}
+.steps-l li{position:relative;display:flex;align-items:center;gap:16px;padding:7px 0;cursor:pointer;color:#8C9BB3;font-size:16px;transition:color .2s}
+.steps-l li:hover{color:#fff}
+.steps-l .dot{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--edge);background:var(--ink);display:grid;place-items:center;flex:none;transition:all .25s}
+.steps-l .dot svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8}
+.steps-l li.past .dot{border-color:rgba(0,186,242,.55);color:var(--cyan)}
+.steps-l li.on{color:#fff;font-weight:600}
+.steps-l li.on .dot{background:var(--cyan);border-color:var(--cyan);color:var(--ink);box-shadow:0 0 0 7px rgba(0,186,242,.15),0 0 30px rgba(0,186,242,.5)}
+@media(max-width:900px){.steps-l{display:flex;justify-content:space-between}.steps-l::before{left:22px;right:22px;top:21px;bottom:auto;width:auto;height:2px}.steps-l .fill{top:21px;left:22px;height:2px!important}.steps-l li{padding:0}.steps-l li span{display:none}.steps-l .dot{width:42px;height:42px}.how-sticky{padding:84px 0 20px;justify-content:flex-start}.how-sticky .eyebrow{display:none}.how-sticky .flow-head{display:block;margin-bottom:22px}.how-sticky .h2{font-size:32px;margin-bottom:12px}.count{text-align:left}.count .hint{display:none}.how-sticky .detail{min-height:0;padding:26px 22px}.detail .num{font-size:56px}.detail h4{font-size:24px;margin:12px 0 10px}.detail p{font-size:15.5px}.out{margin-top:20px;padding-top:16px;font-size:14.5px}}
+.detail{border:1px solid var(--edge);border-radius:26px;padding:44px 44px 38px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));min-height:390px}
+@media(max-width:700px){.detail{padding:28px 22px}}
+.detail .num{font-family:var(--display);font-weight:500;font-size:clamp(64px,7vw,96px);line-height:1;letter-spacing:-.04em;background:linear-gradient(95deg,#00BAF2,#9BE3FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.detail h4{font-family:var(--display);font-weight:500;font-size:clamp(26px,2.6vw,34px);letter-spacing:-.02em;margin:18px 0 14px}
+.detail p{font-size:17px;line-height:1.6;color:#B4C0D3;margin:0;max-width:640px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.tags span{font-size:13px;border:1px solid var(--edge);border-radius:99px;padding:6px 13px;color:#C7D1E0}
+.out{margin-top:28px;padding-top:20px;border-top:1px solid var(--edge);font-size:15.5px;color:#fff}
+.out em{font-style:normal;font-size:12px;letter-spacing:.16em;color:var(--cyan);margin-right:14px;font-weight:600}
+.fade{animation:card .7s cubic-bezier(.2,.7,.2,1) both}
+@keyframes card{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.fade .tags span{animation:chip .5s cubic-bezier(.2,.7,.2,1) both}
+.fade .tags span:nth-child(1){animation-delay:.15s}.fade .tags span:nth-child(2){animation-delay:.23s}.fade .tags span:nth-child(3){animation-delay:.31s}.fade .tags span:nth-child(4){animation-delay:.39s}
+@keyframes chip{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.people{overflow-x:auto}html{scroll-behavior:auto}}
+
+/* watch */
+.watch{position:relative;border-radius:26px;overflow:hidden;border:1px solid var(--edge);background:#061833;aspect-ratio:16/9.4;max-height:820px}
+@media(max-width:700px){.watch{aspect-ratio:auto;height:78vh;max-height:none}}
+.watch iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--paper)}
+.poster{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;cursor:pointer;background:
+  radial-gradient(60% 60% at 50% 50%,rgba(0,186,242,.22),transparent 70%),
+  linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px) 0 0/48px 48px,
+  linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px) 0 0/48px 48px}
+.poster .play{width:92px;height:92px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 0 0 14px rgba(255,255,255,.08),0 20px 50px rgba(0,0,0,.4);transition:transform .2s}
+.poster:hover .play{transform:scale(1.06)}
+.poster .play svg{width:32px;height:32px;fill:var(--ink);margin-left:5px}
+.poster b{font-family:var(--display);font-weight:500;font-size:22px}
+.poster span{color:#A3B0C4;font-size:15px}
+.watch-note{margin-top:16px;color:#7F8FA9;font-size:14px}
+.watch-note a{color:var(--cyan)}
+
+/* help */
+.help{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:800px){.help{grid-template-columns:1fr}}
+.help a{display:flex;align-items:center;gap:20px;border:1px solid var(--edge);border-radius:22px;padding:26px;text-decoration:none;background:rgba(255,255,255,.02);transition:border-color .2s,background .2s,transform .25s}
+.help a:hover{border-color:rgba(0,186,242,.5);background:rgba(0,186,242,.05);transform:translateY(-3px)}
+.help .hi{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;flex:none;background:var(--c1)}
+.help .hi svg{width:24px;height:24px;stroke:var(--c2);fill:none;stroke-width:1.8}
+.help .tx{flex:1}
+.help .tx b{display:block;font-family:var(--display);font-weight:500;font-size:22px;letter-spacing:-.01em}
+.help .tx span{display:block;margin-top:6px;color:#A3B0C4;font-size:15px;line-height:1.5}
+.help .tx small{display:block;margin-top:8px;font-size:12.5px;color:#7F8FA9;font-weight:600}
+.help .arr{color:#7F8FA9;font-size:22px}
+.faq{margin-top:70px;border-top:1px solid var(--edge)}
+.faq details{border-bottom:1px solid var(--edge)}
+.faq summary{list-style:none;cursor:pointer;padding:24px 0;font-family:var(--display);font-size:20px;display:flex;justify-content:space-between;gap:20px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--cyan);font-size:26px;line-height:1;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq p{margin:-6px 0 24px;color:#B4C0D3;font-size:16px;line-height:1.65;max-width:820px}
+.faq .faq-h{font-family:var(--display);font-weight:500;font-size:28px;margin:0 0 4px;letter-spacing:-.02em}
+
+/* can / can't */
+.cant{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:800px){.cant{grid-template-columns:1fr}}
+.cant>div{border:1px solid var(--edge);border-radius:22px;padding:30px 32px}
+.cant h4{font-family:var(--display);font-weight:500;font-size:20px;margin:0 0 14px}
+.cant ul{margin:0;padding-left:18px;color:#B4C0D3;font-size:15.5px;line-height:1.75}
+.cta-band{margin-top:90px;text-align:center}
+.cta-band .h2{margin:0 auto 30px}
 </style>
 </head>
 <body>
-<div class="app">
-<aside class="side">
-<div class="logo">Pakka<span>✦</span></div>
-<div class="by">Your AI loan companion</div>
-<a href="#"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
-<a href="#" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Loans</a>
-<a href="#"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Credit cards</a>
-<a href="#"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Insurance</a>
-<a href="#"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Investments</a>
-<a href="#"><svg viewBox="0 0 24 24"><path d="M12 3v18M17 7H9.5a3 3 0 0 0 0 6h5a3 3 0 0 1 0 6H6"/></svg>Payments</a>
-<div class="tag">Prototype · synthetic data only · not connected to Paytm</div>
-</aside>
+<header class="nav"><div class="wrap">
+<a class="brand" href="#top"><i></i>Pakka</a>
+<nav class="links"><a href="#mission">Mission</a><a href="#how">How it works</a><a href="#watch">Watch a demo</a><a href="#help">Help</a><a class="pill solid sm" href="/demo">Open demo</a></nav>
+</div></header>
 
-<main class="main">
-<div class="top">
-<div><div class="hi">Hi Samina,</div><div class="muted">Let's complete your personal loan application.</div></div>
-<div class="avatar">SP</div>
+<div class="hero" id="top"><div class="wrap">
+<div class="chip-top"><i></i>Paytm Build for India · Track 2 · AI-powered financial journeys</div>
+<h1>No one should give up on a loan over <span class="it">a blurry photo.</span></h1>
+<p>Pakka spots when someone is stuck in a loan application, tells them what went wrong in their own language, and helps them fix it. If that doesn't work, it hands them to a person.</p>
+<div class="ctas"><a class="pill solid" href="/demo">Open the demo</a><a class="pill" href="#watch">&#9654;&nbsp; Watch the demo</a><a class="pill" href="#how">How it works</a></div>
 </div>
-<section class="card">
-<div class="jhead"><div><h2>Personal Loan Application</h2><div class="muted" id="stepno"></div></div><span class="badge">₹50,000 · 12 months</span></div>
-<div class="steps" id="steps"></div>
-<div id="screen"></div>
-</section>
-<section class="demo">
-<div class="h">Demo controls · simulate time passing</div>
-<div class="clock">Simulated clock: <b id="clock">0s</b>
-<button class="ghost" data-tick="30">+30s</button><button class="ghost" data-tick="120">+2 min</button><button class="ghost" data-tick="900">+15 min</button>
+<div class="hero-foot wrap"><span>Prototype · synthetic data only · not connected to Paytm</span><span class="sc">SCROLL</span></div>
 </div>
-</section>
-</main>
 
-<aside class="assist">
-<section class="card pakka" id="pakka">
-<div class="head">
-<div class="who"><div class="av">✦</div><div><b>Pakka AI</b><div class="status"><span class="a">Watching your journey</span><span class="b">Stepped in to help</span></div></div></div>
-<div class="lang"><button data-lang="en" class="on">English</button><button data-lang="hi">हिंदी</button></div>
+<section class="dark" id="mission"><div class="wrap">
+<div class="eyebrow">The mission</div>
+<p class="statement">A failed upload isn't a no. <span class="dim">But to someone applying for their first loan, it can feel like one.</span> <span class="it">Pakka</span> notices the stall, explains it <span class="it">in their own language</span>, <span class="dim">and fixes it with their consent, or hands them to</span> a person <span class="dim">when it can't.</span></p>
+<div class="stats">
+<div><b>9</b><span>approved actions. The agent can't choose anything outside this list.</span></div>
+<div><b>0</b><span>policy violations across 2,000 checked actions</span></div>
+<div><b>0.85</b><span>accuracy on 260 held-out journeys it was never tuned on, with 0 false alarms</span></div>
+<div><b>~1<small style="font-size:.45em;letter-spacing:0"> ms</small></b><span>for the agent to decide, with no network calls</span></div>
 </div>
-<div class="idle"><div class="bubble">Hi Samina! I'm keeping an eye on your application. If anything gets stuck, I'll explain what went wrong and help you fix it.</div></div>
-<div class="live">
-<div class="bubble msg" id="msg"></div>
-<div class="why">Why Pakka stepped in</div>
-<div class="chips" id="chips"></div>
-<div class="row"><button class="primary" id="yes">Yes, help me</button><button id="listen">Listen</button><button id="no">Not now</button></div>
+
+<div class="people-h"><h3>Who it helps</h3><p>Illustrative situations, not real users.</p></div>
+<div class="people"><div class="reel" id="reel">
+<div class="person"><div class="art" style="--g:linear-gradient(160deg,#003A8C,#00122E 75%)"><div class="icn"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4M14 10h4M14 13h3"/></svg></div><q>My Aadhaar photo failed twice. The app just said try again.</q></div><b>First-time borrower</b><span>Pakka says what went wrong and guides a retake.</span></div>
+<div class="person"><div class="art" style="--g:linear-gradient(160deg,#00708F,#00122E 75%)"><div class="icn"><svg viewBox="0 0 24 24"><path d="M4 5h9M8.5 3v2M6 5c.5 3 2.5 5.5 5 7M11 5c-.8 3.5-3.2 6.5-6 8M13 21l4.5-10L22 21M14.5 18h6"/></svg></div><q>APR, foreclosure, penal charges. I don't know what I'm agreeing to.</q></div><b>Hindi-first applicant</b><span>Pakka explains each Key Fact Statement term in Hindi.</span></div>
+<div class="person"><div class="art" style="--g:linear-gradient(160deg,#1E4FA8,#00122E 75%)"><div class="icn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><q>A customer walked in and I lost my place in the form.</q></div><b>Shop owner on a busy day</b><span>After 10 minutes idle, Pakka sends a link to pick up where they left off.</span></div>
+<div class="person"><div class="art" style="--g:linear-gradient(160deg,#0A5C7A,#00122E 75%)"><div class="icn"><svg viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><circle cx="12" cy="10" r="2.5"/><path d="M8 16.5c.9-1.8 2.3-2.7 4-2.7s3.1.9 4 2.7"/></svg></div><q>The face check keeps failing in my room's light.</q></div><b>Stuck at the face check</b><span>Pakka gives tips first, then offers video KYC.</span></div>
+<div class="person"><div class="art" style="--g:linear-gradient(160deg,#2A3F8F,#00122E 75%)"><div class="icn"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><q>I've never used DigiLocker. Now I can't get past this step.</q></div><b>Not on DigiLocker</b><span>Pakka helps set it up, or switches to video KYC.</span></div>
+</div></div>
+</div></section>
+
+<section class="dark" id="how"><div class="how-track"><div class="how-sticky"><div class="wrap">
+<div class="eyebrow">How it works</div>
+<div class="flow-head"><h2 class="h2">From a stuck screen to a <span class="it">finished application.</span></h2><div class="count"><span id="count">Step 1 of 7</span><small class="hint">Scroll to step through</small></div></div>
+<div class="flow">
+<ol class="steps-l" id="stepsL"><i class="fill" id="fill"></i></ol>
+<div class="detail" id="detail"></div>
 </div>
-<div class="toast" id="toast"></div>
-</section>
-<section class="card sm"><h3>Audit log</h3><div class="muted">Every Pakka intervention is written here.</div><table id="audit"></table></section>
-<section class="card sm"><h3>Evaluation</h3><div id="eval" class="muted">Run <code>python eval/run_eval.py</code> to fill this in.</div></section>
-</aside>
+</div></div></div></section>
+
+<section class="dark" id="watch"><div class="wrap">
+<div class="eyebrow">Watch a demo</div>
+<h2 class="h2">See it in <span class="it">under a minute.</span></h2>
+<div class="watch" id="watchBox">
+<div class="poster" id="poster"><div class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></div><b>Play the guided tour</b><span>The real app, clicking through itself with captions</span></div>
 </div>
+<p class="watch-note">The tour runs the live prototype, not a recording. Want to drive it yourself? <a href="/demo">Open the demo</a>.</p>
+</div></section>
+
+<section class="dark" id="help"><div class="wrap">
+<div class="eyebrow">Help</div>
+<h2 class="h2">What brings you <span class="it">here?</span></h2>
+<div class="help">
+<a href="#watch" style="--c1:rgba(0,186,242,.14);--c2:#00BAF2"><div class="hi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z"/></svg></div><div class="tx"><b>I'm judging the project</b><span>A guided tour of the rescue loop in under a minute, then try it yourself.</span><small>Guided tour</small></div><span class="arr">›</span></a>
+<a href="/demo" style="--c1:rgba(98,212,255,.12);--c2:#9BE3FF"><div class="hi"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-6 1.5L10 20z"/></svg></div><div class="tx"><b>I want to try it myself</b><span>Get stuck on purpose at KYC or the loan offer and watch Pakka step in.</span><small>Opens the live demo</small></div><span class="arr">›</span></a>
+<a href="#how" style="--c1:rgba(76,140,255,.14);--c2:#7FB0FF"><div class="hi"><svg viewBox="0 0 24 24"><path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4zM20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6z"/></svg></div><div class="tx"><b>I want to understand how it works</b><span>From an app event to a fix, in seven steps and plain words.</span><small>Step by step</small></div><span class="arr">›</span></a>
+<a href="#faq" style="--c1:rgba(255,180,107,.12);--c2:#FFB46B"><div class="hi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14M12 17h.01"/></svg></div><div class="tx"><b>I have a question</b><span>Is it a chatbot? Does it decide my loan? What happens to my data?</span><small>Common questions</small></div><span class="arr">›</span></a>
+</div>
+
+<div class="faq" id="faq">
+<div style="padding:44px 0 10px"><p class="faq-h">Common questions</p></div>
+<details open><summary>Isn't this just a chatbot?</summary><p>No. A chatbot waits for the user to ask, and a language model decides what to say. Pakka watches the journey and steps in on its own when someone is stuck. Rules decide what's wrong, a guard checks the action against an approved list, and the explanation comes from reviewed templates, so nothing the user hears is made up.</p></details>
+<details><summary>Does Pakka decide whether I get the loan?</summary><p>No. Pakka only helps people finish the application: retaking a photo, converting a file, explaining loan terms, or bringing in a person. None of its nine approved actions approve or reject anything.</p></details>
+<details><summary>What happens to my personal details?</summary><p>Aadhaar numbers, PAN, phone numbers and email addresses are masked before any text leaves the server, for example when a message is sent to be read aloud. Every intervention is written to an audit log.</p></details>
+<details><summary>Which languages does it speak?</summary><p>English and Hindi today, written and read aloud. More languages are planned through Sarvam.</p></details>
+<details><summary>What if Pakka can't fix the problem?</summary><p>On the third attempt, or if an action isn't allowed, Pakka hands the user to a person, who sees the full journey history so the user doesn't have to repeat anything.</p></details>
+<details><summary>How accurate is it?</summary><p>On our own 500 synthetic journeys detection is 1.00, but those come from the same failure types the rules were written for. On 260 held-out journeys from 13 patterns written afterwards, it scores 0.85 with zero false alarms. Real accuracy can only come from a pilot.</p></details>
+<details><summary>Is this connected to Paytm?</summary><p>No. This is a hackathon prototype running on synthetic data. It isn't connected to Paytm's systems.</p></details>
+</div>
+</div></section>
+
+<section class="dark" id="evidence"><div class="wrap">
+<div class="eyebrow">What it can and can't do</div>
+<h2 class="h2">We tested the logic. <span class="dim">Then we tested it on journeys</span> <span class="it">it had never seen.</span></h2>
+<div class="ev">
+<div><h4>Our own scenarios</h4><div class="big">1.00</div><p>Detection accuracy on 500 synthetic journeys, plus 30 of 30 hand-written scenarios. These come from the same failure types the rules were written for, so this shows the rules do what we wrote.</p></div>
+<div class="hl"><h4>Held-out test</h4><div class="big">0.85</div><p>Accuracy on 260 journeys from 13 patterns written after the detector, with 0 false alarms and 11% of stalls missed. The misses are two failed uploads followed by walking away, and one failed face check followed by a pause.</p></div>
+</div>
+<div class="cant">
+<div><h4>What it can do</h4><ul><li>Spot six kinds of stall at KYC and the loan offer</li><li>Explain them in English or Hindi, in writing or out loud</li><li>Fix them with the user's consent, from an approved list</li><li>Hand off to a person with the full history</li></ul></div>
+<div><h4>What it can't do yet</h4><ul><li>It hasn't been tested on real Paytm traffic</li><li>It can't answer free-form questions</li><li>It doesn't approve or reject loans</li><li>It only speaks English and Hindi</li></ul></div>
+</div>
+<p class="next">Next: a pilot on one Paytm personal-loan KYC journey in Hindi, measured against a control group.</p>
+<div class="cta-band"><h2 class="h2">Get stuck on purpose. <span class="it">See what happens.</span></h2><div class="ctas"><a class="pill solid" href="/demo">Open the demo</a><a class="pill" href="#watch">&#9654;&nbsp; Watch the demo</a></div></div>
+</div></section>
+
+<footer><div class="wrap">
+<div><b>Pakka</b> · Team Queen<br>Samina Parveen · Madhur Tandon · Aditya Karn</div>
+<div>Paytm Build for India AI Hackathon · Track 2<br><a href="https://github.com/saminadamn/pakka-paytm">github.com/saminadamn/pakka-paytm</a></div>
+<div>Prototype on synthetic data only.<br>Not connected to Paytm.</div>
+</div></footer>
+
 <script>
-const STEPS=["basic","kyc","offer","bank","review"];
-const LABEL={basic:"Basic details",kyc:"KYC",offer:"Loan offer",bank:"Bank",review:"Review"};
-let jid,clock=0,step="basic",lang="en",last=null,open=false,done=false;
-const $=s=>document.querySelector(s);
+addEventListener("scroll",()=>document.body.classList.toggle("scrolled",scrollY>40),{passive:true});
 
-async function api(path,opt){const r=await fetch(path,opt);if(!r.ok)throw new Error(await r.text());return r.headers.get("content-type")?.includes("json")?r.json():r}
-async function send(type,code){clock+=Math.round(5+Math.random()*10);await api(`/journeys/${jid}/events`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type,step,ts:clock,code})});await check("event")}
-async function go(next){step=next;await send("step_view");render()}
-
-async function check(trigger){
-  $("#clock").textContent=clock+"s";
-  const d=await api(`/journeys/${jid}/rescue?now=${clock}&lang=${lang}&dry=true`);
-  if(!d.detection.stalled){hide();return}
-  if(open&&trigger==="tick")return;
-  last=await api(`/journeys/${jid}/rescue?now=${clock}&lang=${lang}`);
-  show(last);loadAudit();
+const FLOW=[
+ ["App events","Every tap sends an event","Each step of the journey reports what the user did: viewed a step, failed an upload, opened the Key Fact Statement or pressed back.",["step_view","upload_failed","kfs_open","back"],"A timeline of the journey, kept per user",'<path d="M4 12h4l3-7 4 14 3-7h2"/>'],
+ ["Stall detected","Rules spot the stall","Two failed uploads, two failed face checks, a DigiLocker error, 90 seconds idle after opening the KFS, going back twice on the offer, or 10 minutes without progress.",["6 blockers","Rule-based","No model guessing"],"One blocker, with the reasons it was chosen",'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>'],
+ ["Action chosen","An action from the approved list","Each blocker has a short list of allowed actions, tried in order. Each new attempt moves to the next option, ending with a person.",["policy.json","9 approved actions"],"One approved action for this attempt",'<path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/>'],
+ ["Policy guard","Checked before anything happens","A guard confirms the action is allowed for this blocker. If it isn't, or this is the third attempt, the case goes to a person instead.",["Guard node","LangGraph"],"0 violations across 2,000 checked actions",'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>'],
+ ["Explained","Told in their own language","Reviewed templates explain the problem in English or Hindi. Personal details are masked before any text is sent to be read aloud.",["English","हिंदी","PII masking","Sarvam voice"],"A message the user can read or listen to",'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/>'],
+ ["Fixed with consent","Nothing happens without a yes","A guided retake, a file conversion or video KYC only runs after the user agrees. Every intervention is written to the audit log.",["Consent","Audit log"],"A fix the user chose, on the record",'<path d="M20 6L9 17l-5-5"/>'],
+ ["Hand-off","A person takes over","If Pakka can't fix it, a person gets the full journey history, so the user doesn't have to repeat anything.",["Full history","No dead ends"],"Every stuck user reaches a fix or a person",'<circle cx="9" cy="8" r="3.5"/><path d="M3 20c.8-3.5 3.2-5.5 6-5.5s5.2 2 6 5.5M16 6.5a3 3 0 0 1 0 5.5M21 20c-.5-2.6-2-4.3-4-5"/>'],
+];
+const L=document.getElementById("stepsL"),D=document.getElementById("detail");
+L.insertAdjacentHTML("beforeend",FLOW.map((s,i)=>`<li data-i="${i}"><div class="dot"><svg viewBox="0 0 24 24">${s[5]}</svg></div><span>${s[0]}</span></li>`).join(""));
+let cur=0,timer=null,hover=false;
+function pick(i){
+  cur=i;const s=FLOW[i];
+  L.querySelectorAll("li").forEach((li,j)=>{li.classList.toggle("on",j===i);li.classList.toggle("past",j<i)});
+  const li=L.querySelectorAll("li")[i],fl=document.getElementById("fill");
+  if(matchMedia("(max-width:900px)").matches){fl.style.height="";fl.style.width=(li.offsetLeft+li.offsetWidth/2-22)+"px"}
+  else{fl.style.width="";fl.style.height=(li.offsetTop+li.offsetHeight/2-22)+"px"}
+  document.getElementById("count").textContent=`Step ${i+1} of ${FLOW.length}`;
+  D.innerHTML=`<div class="fade"><div class="num">${String(i+1).padStart(2,"0")}</div><h4>${s[1]}</h4><p>${s[2]}</p><div class="tags">${s[3].map(t=>`<span>${t}</span>`).join("")}</div><div class="out"><em>OUTPUT</em>${s[4]}</div></div>`;
 }
-function show(r){
-  open=true;$("#pakka").classList.add("show");$("#msg").textContent=r.message;$("#toast").textContent="";
-  $("#chips").innerHTML=[`blocker: ${r.detection.blocker}`,`action: ${r.action}`,...r.detection.reasons,r.escalated?"escalated to a person":"",r.policy_ok?"policy ok":"policy blocked",`${r.latency_ms} ms`].filter(Boolean).map(c=>`<span class="chip ${c.startsWith("escalated")?"warn":""}">${c}</span>`).join("");
-  $("#yes").style.display=r.needs_consent?"":"none";$("#yes").textContent=lang==="hi"?"हाँ, मदद करो":"Yes, help me";
+// Wide screens: the section is pinned and scrolling moves through the steps.
+// Phones and short screens: click a step, or let it advance on a timer.
+const track=document.querySelector(".how-track"),sticky=document.querySelector(".how-sticky");
+const pinned=()=>getComputedStyle(sticky).position==="sticky";
+const span=()=>track.offsetHeight-innerHeight;
+function onScroll(){
+  if(!pinned())return;
+  const p=Math.min(Math.max(-track.getBoundingClientRect().top/span(),0),.9999);
+  const i=Math.floor(p*FLOW.length);if(i!==cur)pick(i);
 }
-function hide(){open=false;$("#pakka").classList.remove("show")}
+L.addEventListener("click",e=>{const li=e.target.closest("li");if(!li)return;const i=+li.dataset.i;
+  if(pinned())scrollTo({top:track.getBoundingClientRect().top+scrollY+(i+.5)/FLOW.length*span(),behavior:"smooth"});
+  else{pick(i);restart()}});
+document.querySelector(".flow").addEventListener("mouseenter",()=>hover=true);
+document.querySelector(".flow").addEventListener("mouseleave",()=>hover=false);
+function restart(){clearInterval(timer);timer=setInterval(()=>{if(!hover&&!pinned())pick((cur+1)%FLOW.length)},4500)}
+addEventListener("scroll",onScroll,{passive:true});addEventListener("resize",()=>{pick(cur);onScroll()});
+pick(0);restart();onScroll();
 
-async function relang(l){
-  lang=l;document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("on",b.dataset.lang===l));
-  if(!last)return;const d=last.detection;
-  const r=await api(`/explain?action=${last.action}&lang=${l}&step=${d.step||""}&code=${d.code||""}`);
-  last.message=r.message;show(last);
-}
+// Who it helps: duplicate the cards so the reel loops without a gap.
+const reel=document.getElementById("reel");
+[...reel.children].forEach(c=>{const d=c.cloneNode(true);d.setAttribute("aria-hidden","true");reel.appendChild(d)});
 
-const EFFECT={
-  guided_recapture:()=>{step="kyc";render(true)},
-  convert_file:()=>toast("File converted to PDF (simulated). Try uploading again."),
-  switch_to_video_kyc:()=>toast("Video KYC slot booked (simulated)."),
-  digilocker_setup_help:()=>toast("DigiLocker setup guide opened (simulated)."),
-  schedule_callback:()=>toast("Callback requested (simulated)."),
-  human_handoff:()=>toast("Handed to an agent with the full journey history (simulated)."),
+// Sections fade and rise in as they scroll into view; groups come in one after another.
+const R=document.querySelectorAll(".eyebrow,.statement,.stats>div,.people-h,.people,.h2,.flow,.watch,.watch-note,.help a,.faq,.ev>div,.cant>div,.next,.cta-band .ctas,footer .wrap>div");
+R.forEach(el=>{el.classList.add("reveal");
+  const sib=[...el.parentElement.children].filter(c=>c.matches(".stats>div,.help a,.ev>div,.cant>div,footer .wrap>div"));
+  const k=sib.indexOf(el);if(k>0)el.style.transitionDelay=(k*.1)+"s"});
+if("IntersectionObserver" in window){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+  R.forEach(el=>io.observe(el));
+}else R.forEach(el=>el.classList.add("in"));
+
+document.getElementById("poster").onclick=()=>{
+  const f=document.createElement("iframe");f.src="/demo?tour=1&embed=1";f.title="Pakka guided tour";
+  const box=document.getElementById("watchBox");box.innerHTML="";box.appendChild(f);
 };
-function toast(t){$("#toast").textContent=t}
-
-const ICON='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4M14 10h4M14 13h3"/></svg>';
-const FILE='<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>';
-const doc=(t,s,st,cls,ic=FILE)=>`<div class="doc"><div class="ic">${ic}</div><div class="t"><b>${t}</b><span>${s}</span></div><span class="st ${cls}">${st}</span></div>`;
-
-function render(guide){
-  const at=done?STEPS.length:STEPS.indexOf(step);
-  $("#steps").innerHTML=STEPS.map((s,i)=>`<div class="${i<at?"done":i===at?"now":""}"><b>${i<at?"✓":i+1}</b>${LABEL[s]}</div>`).join("");
-  $("#stepno").textContent=done?"Completed":`Step ${at+1} of ${STEPS.length} · ${LABEL[step]}`;
-  const S=$("#screen");
-  if(done){S.innerHTML=`<div class="success"><div class="tk">✓</div><h3>Great! Your application is submitted</h3><p class="muted">Journey ${jid} finished at ${clock}s.</p></div>`;return}
-  if(step==="basic")S.innerHTML=`<h3>Basic details</h3><p class="muted">Pre-filled with sample data. Check and continue.</p>
-  <div class="kv"><span>Full name</span><b>Samina P.</b><span>PAN</span><b>XXXXX1234X</b><span>Monthly income</span><b>₹45,000</b><span>Employment</span><b>Salaried</b></div>
-  <button class="primary" id="next">Continue</button>`;
-  if(step==="kyc")S.innerHTML=`<h3>Upload documents</h3><p class="muted">We need these to verify your identity.</p>
-  <div class="docs">
-  <div class="doc now"><div class="ic">${ICON}</div><div class="t"><b>Identity proof</b><span>Aadhaar card, front side</span></div><span class="st need">Action needed</span>
-   <div class="upl">${guide?`<div class="frame">Keep all four corners inside the frame</div>`:""}
-   <div class="row"><label class="btn primary">Upload a real photo<input type="file" id="file" accept="image/*" hidden></label><button id="ok">Good photo (simulated)</button></div>
-   <div class="muted" id="doc"></div></div></div>
-  ${doc("PAN card","From basic details","Verified","ok")}
-  ${doc("Income proof","Salary slip","Uploaded","ok")}
-  ${doc("Bank statement","Last 3 months","Next","wait")}
-  </div>
-  <div class="demo" style="margin-top:16px"><div class="h">Demo controls · simulate what real users hit</div>
-  <div class="row"><button data-fail="IMG_CROPPED">Corner cut off</button><button data-fail="IMG_BLUR">Blurry</button><button data-fail="IMG_GLARE">Glare</button><button data-fail="FILE_FORMAT">Wrong file type</button><button id="live">Face check fails</button><button id="dl">No DigiLocker</button></div></div>`;
-  if(step==="offer")S.innerHTML=`<h3>Your loan offer</h3><p class="muted">Sample numbers for the demo.</p>
-  <div class="offercard"><div class="amt">Loan amount</div><strong>₹50,000</strong><div class="g"><div><span>Tenure</span><b>12 months</b></div><div><span>EMI</span><b>₹4,600</b></div><div><span>APR</span><b>21.6%</b></div></div></div>
-  <div class="row"><button id="kfs">Open Key Fact Statement</button><button id="back">Go back</button><button class="primary" id="accept">Accept offer</button></div>`;
-  if(step==="bank")S.innerHTML=`<h3>Bank account</h3><p class="muted">Disbursal goes straight to your own account.</p>
-  <div class="docs">${doc("Savings account","XXXX XXXX 4821 · sample","Verified","ok")}</div><div class="row"><button class="primary" id="next">Continue</button></div>`;
-  if(step==="review")S.innerHTML=`<h3>Review and submit</h3><p class="muted">Everything is in place.</p>
-  <div class="kv"><span>Loan amount</span><b>₹50,000</b><span>EMI</span><b>₹4,600 × 12 months</b><span>Documents</span><b>All verified</b></div>
-  <button class="primary" id="submit">Submit application</button>`;
-  bind();
-}
-function bind(){
-  const on=(id,f)=>{const el=document.getElementById(id);if(el)el.onclick=f};
-  on("next",()=>go(STEPS[STEPS.indexOf(step)+1]));
-  on("ok",async()=>{await send("upload_ok");hide();await go("offer")});
-  on("live",()=>send("liveness_failed","LIVENESS"));
-  on("dl",()=>send("digilocker_error","NOT_REGISTERED"));
-  on("kfs",()=>send("kfs_open"));
-  on("back",()=>send("back"));
-  on("accept",async()=>{hide();await go("bank")});
-  on("submit",async()=>{await send("submit");done=true;hide();render()});
-  document.querySelectorAll("[data-fail]").forEach(b=>b.onclick=()=>send("upload_failed",b.dataset.fail));
-  const f=document.getElementById("file");
-  if(f)f.onchange=async()=>{const fd=new FormData();fd.append("file",f.files[0]);
-    const r=await api("/doccheck",{method:"POST",body:fd});
-    $("#doc").textContent=`Doc check: ${r.ok?"looks good":r.issues.join(", ")} · sharpness ${r.metrics.sharpness??"-"} · glare ${r.metrics.glare_ratio??"-"}`;
-    if(r.ok){await send("upload_ok");hide();await go("offer")}else await send("upload_failed",r.issues[0])};
-}
-
-async function loadAudit(){const rows=await api("/audit?limit=8");$("#audit").innerHTML="<tr><th>Journey</th><th>Blocker</th><th>Action</th><th>Lang</th><th>Policy</th></tr>"+rows.map(r=>`<tr><td>${r.journey_id}</td><td>${r.blocker}</td><td>${r.action}${r.escalated?" ⇢ person":""}</td><td>${r.lang}</td><td>${r.policy_ok?"ok":"blocked"}</td></tr>`).join("")}
-async function loadEval(){try{const e=await api("/eval");const s=e.scripted_scenarios,p=e.policy,d=e.detection,l=e.latency;
-  $("#eval").innerHTML=`<table><tr><td>Synthetic journeys</td><td>${e.dataset.journeys}</td></tr><tr><td>Blocker detection accuracy</td><td>${d.accuracy}</td></tr><tr><td>Actions checked / policy violations</td><td>${p.actions_checked} / ${p.violations}</td></tr><tr><td>Scripted scenarios passed</td><td>${s.passed} / ${s.scenarios}</td></tr><tr><td>Agent latency p50 / p95</td><td>${l.p50_ms} / ${l.p95_ms} ms</td></tr></table><p class="muted">Synthetic data uses the same failure taxonomy as the detector, so this checks the logic, not real-world accuracy.</p>`}catch(e){}}
-
-$("#yes").onclick=()=>{const a=last?.action;(EFFECT[a]||(()=>toast("Done.")))();if(a!=="guided_recapture")hide()};
-$("#no").onclick=hide;
-$("#listen").onclick=async()=>{const text=$("#msg").textContent;
-  try{const r=await fetch("/speak",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,lang})});
-    if(r.ok){new Audio(URL.createObjectURL(await r.blob())).play();return}}catch(e){}
-  const u=new SpeechSynthesisUtterance(text);u.lang=lang==="hi"?"hi-IN":"en-IN";speechSynthesis.speak(u);toast("Browser voice used (set SARVAM_API_KEY for Bulbul).")};
-document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>relang(b.dataset.lang));
-document.querySelectorAll("[data-tick]").forEach(b=>b.onclick=()=>{clock+=+b.dataset.tick;check("tick")});
-
-(async()=>{jid=(await api("/journeys",{method:"POST"})).journey_id;await send("step_view");render();loadAudit();loadEval()})();
 </script>
 </body>
 </html>

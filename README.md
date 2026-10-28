@@ -43,6 +43,12 @@ flowchart LR
 
 ## Screenshots
 
+The landing page explains the problem, who it helps and how it works, and plays a guided tour of the live app.
+
+| Landing page | How it works |
+|---|---|
+| ![Landing page](docs/screenshots/01-home.png) | ![How it works, step by step](docs/screenshots/08-how-it-works.png) |
+
 Two failed Aadhaar uploads at KYC. Pakka explains what went wrong and offers a guided retake, in English or Hindi.
 
 | Rescue (English) | Rescue (Hindi) |
@@ -65,7 +71,9 @@ uvicorn app.main:app --reload    # open http://localhost:8000
 
 Or with Docker: `docker build -t pakka . && docker run -p 8000:8000 pakka`
 
-To try it, go to the KYC step and press **Corner cut off** twice. Pakka pops up with a fix in English or Hindi. Accept it, fail once more, and it hands you to a person. Use the clock buttons to test timeouts and the loan offer screen. **Upload a real photo** runs the OpenCV check on your own image.
+The landing page is at `/` and the live demo at `/demo`. Add `?tour=1` to watch the demo click through itself with captions.
+
+To try it, open `/demo`, go to the KYC step and press **Corner cut off** twice. Pakka pops up with a fix in English or Hindi. Accept it, fail once more, and it hands you to a person. Use the clock buttons to test timeouts and the loan offer screen. **Upload a real photo** runs the OpenCV check on your own image.
 
 For real Bulbul voice, copy `.env.example` to `.env` and set `SARVAM_API_KEY`.
 
