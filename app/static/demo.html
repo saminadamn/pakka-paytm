@@ -127,6 +127,17 @@ footer b{color:#fff;font-family:var(--display);font-weight:600}
 .side a{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:10px;color:var(--muted);text-decoration:none;font-size:14px;font-weight:500}
 .side a svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8}
 .side a.on{background:var(--cyanSoft);color:var(--navy);font-weight:600}
+.side a:not(.on):hover{background:var(--paper);color:var(--navy)}
+[hidden]{display:none!important}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:600px){.tiles{grid-template-columns:1fr}}
+.tile{border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.tile.main{grid-column:1/-1;border-color:var(--cyan);background:#FAFDFF}
+.tile b{font-family:var(--display);font-size:16px;color:var(--ink);font-weight:600}
+.tile .row{margin-top:8px}
+.other-ic{width:52px;height:52px;border-radius:14px;background:var(--cyanSoft);display:grid;place-items:center;margin-bottom:14px}
+.other-ic svg{width:24px;height:24px;stroke:var(--navy);fill:none;stroke-width:1.8}
+.other p{font-size:15px;line-height:1.6;color:var(--muted);margin:10px 0 0;max-width:620px}
 .tag{margin-top:auto;font-size:11.5px;line-height:1.45;color:var(--muted);background:var(--paper);padding:10px 12px;border-radius:10px}
 
 .main{padding:24px 26px;display:flex;flex-direction:column;gap:16px;min-width:0}
@@ -242,11 +253,11 @@ body.embed .dbar{display:none}
 <aside class="side">
 <div class="logo">Pakka<span>✦</span></div>
 <div class="by">Your AI loan companion</div>
-<a href="#demo"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
-<a href="#demo" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Loans</a>
-<a href="#demo"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Credit cards</a>
-<a href="#demo"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Insurance</a>
-<a href="#demo"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Investments</a>
+<a href="#" data-view="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+<a href="#" data-view="loans" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Loans</a>
+<a href="#" data-view="cards"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Credit cards</a>
+<a href="#" data-view="insurance"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Insurance</a>
+<a href="#" data-view="investments"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Investments</a>
 <div class="tag">Prototype · synthetic data only · not connected to Paytm</div>
 </aside>
 
@@ -255,6 +266,7 @@ body.embed .dbar{display:none}
 <div><div class="hi">Hi Samina,</div><div class="muted">Let's complete your personal loan application.</div></div>
 <div class="avatar">SP</div>
 </div>
+<div id="view-loans">
 <section class="card">
 <div class="jhead"><div><h2>Personal loan application</h2><div class="muted" id="stepno"></div></div><span class="badge">₹50,000 · 12 months</span></div>
 <div class="steps" id="steps"></div>
@@ -266,6 +278,8 @@ body.embed .dbar{display:none}
 <button class="ghost" data-tick="30">+30s</button><button class="ghost" data-tick="120">+2 min</button><button class="ghost" data-tick="900">+15 min</button>
 </div>
 </div>
+</div>
+<section class="card" id="view-other" hidden></section>
 </main>
 
 <aside class="assist">
@@ -399,6 +413,34 @@ document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>relang(b.datas
 document.querySelectorAll("[data-tick]").forEach(b=>b.onclick=()=>{clock+=+b.dataset.tick;check("tick")});
 
 (async()=>{jid=(await api("/journeys",{method:"POST"})).journey_id;await send("step_view");render();loadAudit();loadEval()})();
+</script>
+<script>
+// Sidebar: Loans shows the journey; the other tabs are honest placeholders.
+// Switching tabs only hides the journey, so its state and Pakka's panel carry on.
+(()=>{
+  const icon=v=>document.querySelector(`.side a[data-view="${v}"] svg`).outerHTML;
+  const OTHER={
+    cards:["Credit cards","Credit card applications aren't part of this prototype.","Pakka would work the same way here: card KYC uses the same document and face checks, so the same stall rules and fixes would apply."],
+    insurance:["Insurance","Insurance isn't part of this prototype.","Proposal forms have their own hard parts, like medical questions and policy terms. Pakka could explain those terms in plain language, the way it explains the loan's Key Fact Statement."],
+    investments:["Investments","Investments aren't part of this prototype.","Investment onboarding needs KYC too, so Pakka's photo, face check and DigiLocker rescues would carry over."],
+  };
+  const other=document.getElementById("view-other"),loans=document.getElementById("view-loans");
+  function view(v){
+    document.querySelectorAll(".side a[data-view]").forEach(a=>a.classList.toggle("on",a.dataset.view===v));
+    loans.hidden=v!=="loans";other.hidden=v==="loans";
+    if(v==="home"){
+      const st=done?"Submitted":document.getElementById("stepno").textContent;
+      other.innerHTML=`<h2>Your products</h2><p class="muted">Sample data for the demo.</p><div class="tiles">
+        <div class="tile main"><b>Personal loan</b><span class="muted">₹50,000 · 12 months · ${st}</span><div class="row"><button class="primary" data-go="loans">${done?"View application":"Continue application"}</button></div></div>
+        ${["cards","insurance","investments"].map(k=>`<div class="tile"><b>${OTHER[k][0]}</b><span class="muted">Not in this prototype</span><div class="row"><button data-go="${k}">Learn more</button></div></div>`).join("")}</div>`;
+    }else if(v!=="loans"){
+      const [t,a,b]=OTHER[v];
+      other.innerHTML=`<div class="other"><div class="other-ic">${icon(v)}</div><h2>${t}</h2><p><b style="color:var(--ink)">${a}</b></p><p>${b}</p><div class="row" style="margin-top:18px"><button class="primary" data-go="loans">Back to your loan application</button></div></div>`;
+    }
+    other.querySelectorAll("[data-go]").forEach(x=>x.onclick=()=>view(x.dataset.go));
+  }
+  document.querySelectorAll(".side a[data-view]").forEach(a=>a.onclick=e=>{e.preventDefault();view(a.dataset.view)});
+})();
 </script>
 <script>
 // Guided tour: /demo?tour=1 clicks through the real app with captions.

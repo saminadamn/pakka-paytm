@@ -61,6 +61,12 @@ The user accepts and gets a framing guide. One more failure and Pakka hands them
 |---|---|
 | ![Guided recapture](docs/screenshots/04-guided-recapture.png) | ![Human handoff](docs/screenshots/05-handoff.png) |
 
+On the loan offer, Pakka explains the Key Fact Statement terms when the user hesitates. The sidebar's Home tab shows where the application stands.
+
+| Key Fact Statement explained | Home tab |
+|---|---|
+| ![KFS explained](docs/screenshots/06-offer-kfs.png) | ![Home tab](docs/screenshots/09-home-tab.png) |
+
 ## Run it
 
 ```bash
