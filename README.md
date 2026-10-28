@@ -67,6 +67,27 @@ On the loan offer, Pakka explains the Key Fact Statement terms when the user hes
 |---|---|
 | ![KFS explained](docs/screenshots/06-offer-kfs.png) | ![Home tab](docs/screenshots/09-home-tab.png) |
 
+<details>
+<summary>More screenshots: the rest of the landing page, and on a phone</summary>
+
+| Mission | Who it helps |
+|---|---|
+| ![Mission](docs/screenshots/10-mission.png) | ![Who it helps](docs/screenshots/11-who-it-helps.png) |
+
+| Guided tour playing | Help |
+|---|---|
+| ![Guided tour](docs/screenshots/12-watch-tour.png) | ![Help](docs/screenshots/13-help.png) |
+
+| What it can and can't do |
+|---|
+| ![What it can and can't do](docs/screenshots/14-can-and-cant.png) |
+
+| Phone: landing | Phone: how it works | Phone: demo |
+|---|---|---|
+| ![Phone landing](docs/screenshots/15-phone-landing.png) | ![Phone how it works](docs/screenshots/16-phone-how-it-works.png) | ![Phone demo](docs/screenshots/07-mobile.png) |
+
+</details>
+
 ## Run it
 
 ```bash
